@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Documentation | Denizen AI Open Source Engine</title>
+  <meta name="description" content="Official developer documentation for Denizen AI Engine: 100% open-source on-device AI framework for Flutter. Complete guides for GGUF LLMs, Vector RAG, Tool Calling, and Voice Loops.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Documentation Portal Custom Layout Styling */
+    .docs-layout {
+      display: flex;
+      min-height: calc(100vh - 120px);
+      max-width: 1440px;
+      margin: 0 auto;
+      padding-top: 80px;
+    }
+    
+    .docs-sidebar {
+      width: 290px;
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+      border-right: 1px solid var(--border-sketch);
+      padding: 1.5rem 1rem;
+      background: var(--bg-card);
+      flex-shrink: 0;
+    }
+
+    .docs-sidebar-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .docs-sidebar-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--sketch-cyan);
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+      padding-left: 0.5rem;
+    }
+
+    .docs-sidebar-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .docs-sidebar-links a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 0.75rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .docs-sidebar-links a:hover,
+    .docs-sidebar-links a.active {
+      color: var(--text-main);
+      background: rgba(16, 185, 129, 0.12);
+      border-left: 3px solid var(--sketch-mint);
+    }
+
+    .docs-content {
+      flex: 1;
+      padding: 2.5rem 3.5rem;
+      max-width: 980px;
+      overflow-y: auto;
+    }
+
+    .docs-header-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--border-sketch);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+    }
+
+    .docs-search-box {
+      position: relative;
+      width: 340px;
+    }
+
+    .docs-search-box input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-sketch);
+      color: var(--text-main);
+      padding: 0.5rem 1rem 0.5rem 2.2rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+
+    .docs-search-box i {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .docs-section {
+      margin-bottom: 4rem;
+      scroll-margin-top: 90px;
+    }
+
+    .docs-section h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .docs-section h2 {
+      font-size: 1.5rem;
+      margin-top: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--sketch-mint);
+      border-bottom: 1px solid var(--border-sketch);
+      padding-bottom: 0.5rem;
+    }
+
+    .docs-section h3 {
+      font-size: 1.15rem;
+      margin-top: 1.6rem;
+      margin-bottom: 0.6rem;
+      color: var(--sketch-yellow);
+    }
+
+    .docs-section p {
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.96rem;
+    }
+
+    .docs-section ul, .docs-section ol {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+      padding-left: 1.5rem;
+    }
+
+    .docs-section li {
+      margin-bottom: 0.4rem;
+    }
+
+    .doc-alert {
+      padding: 1.1rem 1.3rem;
+      border-radius: 8px;
+      margin: 1.3rem 0;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+
+    .doc-alert-tip {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--sketch-mint);
+      color: var(--text-main);
+    }
+
+    .doc-alert-important {
+      background: rgba(253, 224, 71, 0.1);
+      border-left: 4px solid var(--sketch-yellow);
+      color: var(--text-main);
+    }
+
+    .doc-alert-warning {
+      background: rgba(251, 113, 133, 0.1);
+      border-left: 4px solid var(--sketch-pink);
+      color: var(--text-main);
+    }
+
+    .code-block-wrapper {
+      position: relative;
+      margin: 1.3rem 0;
+      background: #090d14;
+      border: 1px solid var(--border-sketch);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 1.1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid var(--border-sketch);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s;
+    }
+
+    .btn-copy:hover {
+      color: var(--sketch-mint);
+    }
+
+    pre code {
+      display: block;
+      padding: 1.3rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+    }
+
+    .badge-status {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .badge-ready {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--sketch-mint);
+      border: 1px solid var(--sketch-mint);
+    }
+
+    .badge-open-source {
+      background: rgba(6, 182, 212, 0.2);
+      color: var(--sketch-cyan);
+      border: 1px solid var(--sketch-cyan);
+    }
+
+    .badge-progress {
+      background: rgba(253, 224, 71, 0.2);
+      color: var(--sketch-yellow);
+      border: 1px solid var(--sketch-yellow);
+    }
+
+    .params-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+    }
+
+    .params-table th, .params-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-sketch);
+      text-align: left;
+    }
+
+    .params-table th {
+      color: var(--sketch-cyan);
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .docs-sidebar {
+        display: none;
+      }
+      .docs-content {
+        padding: 1.5rem;
+      }
+      .docs-search-box {
+        width: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Noise & Doodle Background Overlay -->
+  <div class="doodle-bg-overlay"></div>
+
+  <!-- Documentation Header Bar -->
+  <header class="docs-header-bar">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <a href="index.html" class="logo">
+        <img src="assets/denizen_logo.png" alt="Denizen AI Logo" style="height: 36px;">
+      </a>
+      <span class="badge-status badge-open-source"><i class="fa-solid fa-code-branch"></i> 100% Open Source Core</span>
+    </div>
+
+    <div class="docs-search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="docsSearch" placeholder="Search documentation... (Press '/')" onkeyup="filterDocs()">
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <a href="index.html" class="btn btn-sketch-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+        <i class="fa-solid fa-house"></i> Home
+      </a>
+      <a href="https://medium.com/@ibrahimfadhili" target="_blank" class="btn btn-sketch-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+        <i class="fa-brands fa-medium"></i> Medium
+      </a>
+      <a href="https://github.com/Ubuntu-Edge/denizen-ai-sdk" target="_blank" class="btn btn-sketch-primary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+        <i class="fa-brands fa-github"></i> GitHub (MIT)
+      </a>
+    </div>
+  </header>
+
+  <!-- Docs Main Layout -->
+  <div class="docs-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="docs-sidebar">
+      <div class="docs-sidebar-section">
+        <div class="docs-sidebar-title">Getting Started</div>
+        <ul class="docs-sidebar-links">
+          <li><a href="#overview" class="active"><i class="fa-solid fa-compass"></i> Open Source Vision</a></li>
+          <li><a href="#installation"><i class="fa-solid fa-download"></i> Installation & Setup</a></li>
+          <li><a href="#quickstart"><i class="fa-solid fa-bolt"></i> Engine Quickstart</a></li>
+        </ul>
+      </div>
+
+      <div class="docs-sidebar-section">
+        <div class="docs-sidebar-title">Open Source AI Core</div>
+        <ul class="docs-sidebar-links">
+          <li><a href="#model-management"><i class="fa-solid fa-box-archive"></i> Model Lifecycle Manager</a></li>
+          <li><a href="#prompting-streaming"><i class="fa-solid fa-comments"></i> Prompting & Token Streaming</a></li>
+          <li><a href="#vector-rag"><i class="fa-solid fa-database"></i> Offline Vector RAG Engine</a></li>
+          <li><a href="#tool-calling"><i class="fa-solid fa-wrench"></i> Structured Tool Calling (GBNF)</a></li>
+          <li><a href="#voice-engine"><i class="fa-solid fa-microphone"></i> Conversational Voice Loop</a></li>
+          <li><a href="#multimodal-vision"><i class="fa-solid fa-eye"></i> Vision Roadmap (v2.0)</a></li>
+        </ul>
+      </div>
+
+      <div class="docs-sidebar-section">
+        <div class="docs-sidebar-title">Resources & Publications</div>
+        <ul class="docs-sidebar-links">
+          <li><a href="#medium-articles"><i class="fa-brands fa-medium"></i> Medium Articles</a></li>
+        </ul>
+      </div>
+
+      <div class="docs-sidebar-section">
+        <div class="docs-sidebar-title">Ubuntu Edge Platform</div>
+        <ul class="docs-sidebar-links">
+          <li><a href="#smart-cloud-fallback"><i class="fa-solid fa-cloud-arrow-up"></i> Smart Cloud Fallback</a></li>
+          <li><a href="#delta-ota-updates"><i class="fa-solid fa-arrows-rotate"></i> Managed Delta OTA Sync</a></li>
+          <li><a href="#multilingual"><i class="fa-solid fa-language"></i> 50+ Multilingual Gateway</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Documentation Content -->
+    <main class="docs-content">
+
+      <!-- SECTION 1: OVERVIEW -->
+      <section id="overview" class="docs-section">
+        <div style="margin-bottom: 0.8rem;">
+          <span class="handwriting-badge bg-yellow">📚 Developer Documentation Portal</span>
+          <span class="handwriting" style="font-size: 1.1rem; margin-left: 0.5rem; color: var(--sketch-cyan);">✏️ 100% On-Device Core</span>
+        </div>
+        <h1>Denizen AI Engine — Open Source Manual</h1>
+        <p><strong>Denizen AI Engine</strong> is a 100% open-source, privacy-first on-device AI orchestrator for Flutter apps, released under the permissive <strong>MIT License</strong>. Maintained by the <strong>Ubuntu Edge</strong> team, Denizen enables mobile and desktop applications to run local LLMs, vector RAG search, structured tool calling, and voice sessions with zero cloud API fees and complete offline privacy.</p>
+        
+        <div class="doc-alert doc-alert-tip">
+          <i class="fa-solid fa-code-branch" style="font-size: 1.3rem; color: var(--sketch-cyan);"></i>
+          <div>
+            <strong>100% Open-Source Guarantee:</strong> All client-side runtime engines (local GGUF inference via <code>llama.cpp</code>, local vector storage via <code>sqlite-vec</code>, TFLite embeddings, GBNF grammar compilers, and Whisper voice loops) are completely free, open-source, and un-throttled.
+          </div>
+        </div>
+
+        <h2>Module Release Matrix</h2>
+        <table class="params-table">
+          <thead>
+            <tr>
+              <th>Module Name</th>
+              <th>Status</th>
+              <th>Technical Foundation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Model Lifecycle Manager</strong></td>
+              <td><span class="badge-status badge-ready">v1.0 Ready</span></td>
+              <td>Resumable GGUF chunked downloader, GGUF import, LRU RAM eviction.</td>
+            </tr>
+            <tr>
+              <td><strong>Prompting & Token Streaming</strong></td>
+              <td><span class="badge-status badge-ready">v1.0 Ready</span></td>
+              <td>Sliding context window eviction, stateful <code>DenizenSession</code>, stream controller.</td>
+            </tr>
+            <tr>
+              <td><strong>Offline Vector RAG Engine</strong></td>
+              <td><span class="badge-status badge-ready">v1.0 Ready</span></td>
+              <td>TFLite 384-dim embedding extraction + <code>sqlite-vec</code> local vector DB.</td>
+            </tr>
+            <tr>
+              <td><strong>Structured Tool Calling</strong></td>
+              <td><span class="badge-status badge-ready">v1.0 Ready</span></td>
+              <td>GBNF context grammar constraints for 100% guaranteed JSON schema outputs.</td>
+            </tr>
+            <tr>
+              <td><strong>Conversational Voice Loop</strong></td>
+              <td><span class="badge-status badge-ready">v1.0 Ready</span></td>
+              <td>Offline Whisper STT + Flutter TTS real-time audio pipeline.</td>
+            </tr>
+            <tr>
+              <td><strong>Multimodal Vision</strong></td>
+              <td><span class="badge-status badge-progress">v2.0 Progress</span></td>
+              <td>Abstract API ready (<code>DenizenVisionSession</code>); native C++ <code>clip.h</code> projector binding in progress.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 2: INSTALLATION -->
+      <section id="installation" class="docs-section">
+        <h1>Installation & Package Setup</h1>
+        
+        <div class="doc-alert doc-alert-tip" style="border-left-color: var(--sketch-yellow); background: rgba(253, 224, 71, 0.1);">
+          <i class="fa-solid fa-key" style="font-size: 1.3rem; color: var(--sketch-yellow);"></i>
+          <div>
+            <strong>Private Developer Beta Access:</strong> Denizen AI SDK is currently in controlled private beta testing. Contact the Ubuntu Edge team to obtain a read-only <code>BETA_ACCESS_TOKEN</code> to enable <code>flutter pub get</code>.
+          </div>
+        </div>
+
+        <p>Add <code>denizen_ai</code> to your Flutter project's <code>pubspec.yaml</code> file using your Beta Access Token:</p>
+
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>pubspec.yaml</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>dependencies:
+  flutter:
+    sdk: flutter
+
+  denizen_ai:
+    git:
+      url: https://<YOUR_BETA_TOKEN>@github.com/Ubuntu-Edge/denizen-ai-sdk.git
+      ref: main
+
+  path_provider: ^2.1.1
+  connectivity_plus: ^6.1.0</code></pre>
+        </div>
+
+        <p>Execute in your terminal:</p>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>terminal</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>flutter pub get</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION 3: QUICKSTART -->
+      <section id="quickstart" class="docs-section">
+        <h1>Engine Quickstart</h1>
+        <p>Initialize the <code>DenizenAI</code> engine, load a local model, and execute streaming inference:</p>
+
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>main.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:denizen_ai/denizen_ai.dart';
+import 'package:path/path.dart' as p;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final docsDir = await getApplicationDocumentsDirectory();
+  final modelPath = p.join(docsDir.path, 'models', 'qwen2.5-0.5b-instruct-q4_k_m.gguf');
+
+  final denizen = DenizenAI();
+  
+  // Download model if not cached
+  await denizen.models.downloadModel(
+    url: 'https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf',
+    modelId: 'qwen2.5-0.5b-q4',
+    savePath: modelPath,
+  );
+
+  // Load GGUF model into native llama.cpp memory
+  await denizen.models.loadFromFile(modelPath);
+
+  // Create stateful conversation session
+  final session = denizen.createSession(systemPrompt: 'You are an offline assistant.');
+
+  // Stream tokens in real-time
+  session.streamChat('Explain how on-device AI works in 2 sentences.').listen((chunk) {
+    print(chunk); // Streams generated tokens to UI
+  });
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION 4: MODEL MANAGEMENT -->
+      <section id="model-management" class="docs-section">
+        <h1>Model Lifecycle Manager (`DenizenModelManager`)</h1>
+        <p>The <code>DenizenModelManager</code> handles downloading GGUF models, local file importing, memory loading into native <code>llama.cpp</code>, and automatic <strong>Least Recently Used (LRU) storage eviction</strong> to keep device disk space safe.</p>
+
+        <h2>Complete 5-Step Model Lifecycle Flow</h2>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>model_download_flow.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>import 'package:denizen_ai/denizen_ai.dart';
+
+// 1. Check if model is already downloaded on device
+final isDownloaded = await DenizenAI().models.isDownloaded('qwen2.5-1.5b-instruct-q4');
+
+if (!isDownloaded) {
+  print('Model not on device. Starting download with progress...');
+}
+
+// 2. Download (if missing) & Load into RAM in a single call
+try {
+  await DenizenAI().models.load(
+    'qwen2.5-1.5b-instruct-q4',
+    requireWifi: true, // Block download on Cellular data if true
+    onProgress: (progress) {
+      print('Stage: ${progress.stage}');
+      print('Progress: ${(progress.progress * 100).toStringAsFixed(1)}%');
+      print('Downloaded: ${progress.bytesDownloadedMB} MB');
+    },
+  );
+  print('✅ Model loaded into llama.cpp memory and ready for inference!');
+} on StorageQuotaException catch (e) {
+  print('❌ Storage Full: ${e.message}');
+} on NetworkException catch (e) {
+  print('❌ WiFi required for download.');
+}
+
+// Note: Denizen automatically detects pre-pushed GGUF files in 
+// /sdcard/Download/ or /data/local/tmp/ for offline enterprise deployment!</code></pre>
+        </div>
+
+        <h2>Supported Micro-Models</h2>
+        <table class="params-table">
+          <thead>
+            <tr>
+              <th>Model ID</th>
+              <th>Size</th>
+              <th>Quantization</th>
+              <th>Ideal Device Target</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>qwen2.5-0.5b-q4</code></td>
+              <td>~398 MB</td>
+              <td>Q4_K_M</td>
+              <td>Recommended default for budget mobile phones (1.5GB RAM).</td>
+            </tr>
+            <tr>
+              <td><code>smollm2-360m-q4</code></td>
+              <td>~228 MB</td>
+              <td>Q4_K_M</td>
+              <td>Ultra-lightweight testing model; loads instantly with minimal memory.</td>
+            </tr>
+            <tr>
+              <td><code>llama-3.2-1b-q4</code></td>
+              <td>~758 MB</td>
+              <td>Q4_K_M</td>
+              <td>High instruction following quality; ideal for general mobile assistants.</td>
+            </tr>
+            <tr>
+              <td><code>phi-3.5-mini-q4</code></td>
+              <td>2.39 GB</td>
+              <td>Q4_K_M</td>
+              <td>Heavy reasoning model; requires devices with 6GB+ RAM.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 5: DEEP DIVE - PROMPTING & STREAMING -->
+      <section id="prompting-streaming" class="docs-section">
+        <h1>Deep Dive: Prompting & Token Streaming (`DenizenSession`)</h1>
+        <p>Conversations in Denizen are managed via <code>DenizenSession</code> instances. A session maintains chat history, enforces system prompts, and automatically handles <strong>sliding context window eviction</strong> when chat history threatens to exceed the model's native context limit.</p>
+
+        <h2>Sliding Context Window Eviction</h2>
+        <p>When a session exceeds the loaded context limit (e.g. 2048 or 4096 tokens), Denizen automatically resolves <code>loadedContextSize</code> and evicts older conversation turns while keeping the original <code>systemPrompt</code> intact.</p>
+
+        <h2>Generation Parameters</h2>
+        <table class="params-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>maxTokens</code></td>
+              <td><code>512</code></td>
+              <td>Maximum tokens to generate per output response turn.</td>
+            </tr>
+            <tr>
+              <td><code>temperature</code></td>
+              <td><code>0.8</code></td>
+              <td>Controls randomness. Lower values (0.2) make responses deterministic; higher values (1.0) increase creativity.</td>
+            </tr>
+            <tr>
+              <td><code>topP</code></td>
+              <td><code>0.95</code></td>
+              <td>Nucleus sampling threshold. Considers tokens with topP cumulative probability.</td>
+            </tr>
+            <tr>
+              <td><code>topK</code></td>
+              <td><code>40</code></td>
+              <td>Top-K sampling limit. Restricts candidate tokens to top K highest probabilities.</td>
+            </tr>
+            <tr>
+              <td><code>repeatPenalty</code></td>
+              <td><code>1.1</code></td>
+              <td>Penalizes repeated word loops in long generation outputs.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Synchronous Chat vs Token Streaming Example</h2>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>prompting_demo.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>final denizen = DenizenAI();
+final session = denizen.createSession(
+  systemPrompt: 'You are an expert Flutter developer.',
+  maxTokens: 1024,
+);
+
+// Method 1: Synchronous Response (Awaits complete generation)
+final reply = await session.chat('How do I build a custom RenderObject?');
+print(reply);
+
+// Method 2: Token Streaming (Real-time UI updates)
+final stream = session.streamChat(
+  'What is the difference between Stateless and Stateful widgets?',
+  temperature: 0.7,
+);
+
+stream.listen(
+  (token) => setState(() => currentOutput += token),
+  onDone: () => print('Streaming completed.'),
+);</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION 6: OFFLINE VECTOR RAG -->
+      <section id="vector-rag" class="docs-section">
+        <h1>Offline Vector RAG Engine</h1>
+        <p>Denizen includes a native offline RAG (Retrieval-Augmented Generation) pipeline powering vector similarity search using <code>sqlite-vec</code> and local 384-dimensional TFLite embeddings. No external servers or API keys are required.</p>
+
+        <h2>Step-by-Step Developer Integration</h2>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>rag_demo.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>import 'dart:io';
+import 'package:denizen_ai/denizen_ai.dart';
+
+// 1. Initialize Local Embedding Provider & Vector Storage Service
+final embeddingProvider = TFLiteEmbeddingProvider();
+await embeddingProvider.initialize();
+
+final storageService = VectorStorageService();
+await storageService.initialize(); // Automatically loads sqlite-vec FFI
+
+// 2. Ingest Local Document (.pdf, .txt, .md, .csv)
+final ingestionService = DocumentIngestionService(embeddingProvider, storageService);
+
+// Option A: Ingest local file directly (handles PDF text extraction automatically)
+await ingestionService.ingestFile(
+  1, // Document ID
+  File('/path/to/clinical_manual.pdf'),
+  chunkSizeWords: 200,
+  overlapWords: 30,
+);
+
+// Option B: Ingest raw text string
+await ingestionService.ingestText(
+  2,
+  "Emergency Protocol: In case of acute fever over 38.5°C, administer paracetamol...",
+);
+
+// 3. Create RAG-Enabled Session & Stream Answer
+final ragSession = DenizenAI().createRagSession(
+  embeddingProvider: embeddingProvider,
+  storageService: storageService,
+  baseSystemPrompt: 'You are an offline clinical assistant. Use retrieved context to answer accurately.',
+);
+
+// Context retrieval from sqlite-vec happens automatically under the hood!
+final stream = ragSession.streamChat('What is the protocol for acute fever?');
+stream.listen((token) {
+  print(token); // Real-time token streaming to UI
+});
+
+// Note: You can also load pre-built domain knowledge databases from Flutter assets:
+// await DenizenAI().loadBundledKnowledge('assets/medical_rag.db');</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION 7: STRUCTURED TOOL CALLING -->
+      <section id="tool-calling" class="docs-section">
+        <h1>Structured Tool Calling (GBNF Context Grammars)</h1>
+        <p>Denizen uses pre-compiled GBNF context grammars to constrain local GGUF model outputs, guaranteeing 100% valid JSON function calling without syntax errors.</p>
+
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>tool_demo.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>// Define Custom Executable Tool
+class GetLocationTool extends DenizenTool {
+  GetLocationTool() : super(
+    name: 'get_user_location',
+    description: 'Returns current device latitude and longitude.',
+    parametersSchema: {'type': 'object', 'properties': {}},
+  );
+
+  @override
+  Future<Map<String, dynamic>> execute(Map<String, dynamic> arguments) async {
+    return {'lat': -1.286389, 'lng': 36.817223}; // Nairobi coordinates
+  }
+}
+
+// Register & Execute via Tool Session
+final registry = DenizenToolRegistry();
+registry.registerTool(GetLocationTool());
+
+final toolSession = DenizenToolSession(denizen.engine, registry);
+final result = await toolSession.chat('Where am I currently located?');
+print(result);</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION 8: CONVERSATIONAL VOICE LOOP -->
+      <section id="voice-engine" class="docs-section">
+        <h1>Deep Dive: Conversational Voice Loop (`DenizenVoiceSession`)</h1>
+        <p>The <code>DenizenVoiceSession</code> implements a real-time, hands-free voice consultation loop operating 100% offline. It pairs <strong>Whisper Speech-to-Text (STT)</strong> with Flutter's native <strong>Text-to-Speech (TTS)</strong> audio engine.</p>
+
+        <h2>Voice Pipeline Architecture</h2>
+        ```
+         Microphone Audio ──▶ Offline Whisper STT ──▶ Denizen Local LLM ──▶ Native TTS ──▶ Speaker Audio
+        ```
+
+        <h2>Voice Consultation Code Example</h2>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>voice_demo.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>import 'package:denizen_ai/denizen_ai.dart';
+
+final denizen = DenizenAI();
+
+// Create Voice Session
+final voiceSession = DenizenVoiceSession();
+
+// Start Hands-Free Speech Loop
+await voiceSession.startListening(
+  onSpeechRecognized: (userText) {
+    print('User Spoke: $userText');
+  },
+  onResponseGenerated: (aiReply) {
+    print('AI Spoke Back: $aiReply');
+  },
+  systemPrompt: 'You are a friendly voice tutor.',
+);
+
+// Stop Voice Session
+await voiceSession.stopListening();</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION 9: MULTIMODAL VISION -->
+      <section id="multimodal-vision" class="docs-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <h1 style="margin: 0;">Multimodal Vision Roadmap</h1>
+          <span class="badge-status badge-progress"><i class="fa-solid fa-clock"></i> v2.0 Roadmap</span>
+        </div>
+        
+        <p>The <code>DenizenVisionSession</code> module is currently in development to bring local image reasoning and visual context analysis (LLaVA 1.5, LLaVA-NeXT, MobileVLM) 100% offline without sending user photos to cloud APIs.</p>
+
+        <div class="doc-alert doc-alert-important">
+          <i class="fa-solid fa-wrench" style="font-size: 1.3rem; color: var(--sketch-yellow);"></i>
+          <div>
+            <strong>v2.0 Native Build Status:</strong> Native C++ platform channel bindings connecting <code>llama_flutter_android</code> to <code>clip.h</code> (CLIP vision feature extraction & <code>.mmproj</code> tensor projection) are undergoing low-level memory allocation & Metal/Vulkan quantization testing for the upcoming <strong>v2.0 Release</strong>.
+          </div>
+        </div>
+
+        <h2>Planned On-Device Vision Pipeline</h2>
+        <div class="code-block-wrapper" style="background: #070a10; padding: 1rem; border-color: var(--sketch-cyan);">
+          <pre style="margin: 0; padding: 0;"><code> Image Bytes / Camera ──▶ CLIP Vision Encoder (clip.h) ──▶ mmproj Projection Tensor ──▶ llama.cpp LLM Context ──▶ Text Stream</code></pre>
+        </div>
+      </section>
+      <!-- SECTION 10: MEDIUM ENGINEERING PUBLICATIONS -->
+      <section id="medium-articles" class="docs-section">
+        <h1>Engineering Publications & Medium Articles</h1>
+        <p>Explore technical deep-dives and engineering articles detailing how Denizen AI was designed and built:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin: 1.5rem 0;">
+          <a href="https://medium.com/@ibrahimfadhili/how-i-shrunk-a-6-62gb-medical-ai-to-fit-on-a-community-health-workers-phone-7bb77befe1d0" target="_blank" class="sketch-card" style="text-decoration: none; color: inherit; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="doodle-tag" style="margin-bottom: 0.5rem;"><i class="fa-brands fa-medium"></i> Medium</span>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--sketch-mint);">How I Shrunk a 6.62GB Medical AI to Fit on a Community Health Worker's Phone</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Quantizing and optimizing a heavy 6.62GB medical model to execute 100% offline on budget Android phones in rural environments.</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.85rem; font-weight: 700; color: var(--sketch-cyan);">Read on Medium <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+          </a>
+
+          <a href="https://medium.com/@ibrahimfadhili/shrinking-ai-models-by-75-a-practical-guide-to-pytorch-int8-quantization-f8a24836bc28" target="_blank" class="sketch-card" style="text-decoration: none; color: inherit; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="doodle-tag" style="margin-bottom: 0.5rem;"><i class="fa-brands fa-medium"></i> Medium</span>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--sketch-cyan);">Shrinking AI Models by 75%: A Practical Guide to PyTorch INT8 Quantization</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">A practical guide to compressing neural network model weights by 75% using PyTorch INT8 quantization without accuracy loss.</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.85rem; font-weight: 700; color: var(--sketch-cyan);">Read on Medium <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+          </a>
+
+          <a href="https://medium.com/@ibrahimfadhili/can-edge-ai-help-build-a-more-sustainable-future-d96461188111" target="_blank" class="sketch-card" style="text-decoration: none; color: inherit; padding: 1.2rem; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="doodle-tag" style="margin-bottom: 0.5rem;"><i class="fa-brands fa-medium"></i> Medium</span>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.4rem; color: var(--sketch-yellow);">Can Edge AI Help Build a More Sustainable Future?</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Analyzing the environmental footprint, carbon reduction, and energy sustainability of edge AI computing.</p>
+            </div>
+            <div style="margin-top: 1rem; font-size: 0.85rem; font-weight: 700; color: var(--sketch-cyan);">Read on Medium <i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+          </a>
+        </div>
+      </section>
+
+      <!-- SECTION 11: UBUNTU EDGE PLATFORM -->
+      <section id="smart-cloud-fallback" class="docs-section">
+        <h1>Ubuntu Edge Platform Cloud Extensions</h1>
+        <p>Connect your open-source SDK instances to the private <strong>Ubuntu Edge Platform</strong> for cloud fallback, managed delta OTA model updates, and multi-device vector sync.</p>
+
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>ubuntu_edge_config.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>// Unlock Ubuntu Edge Cloud Platform via single configuration hook
+await denizen.connectUbuntuEdge(
+  apiKey: 'ue_live_secret_key_xxx',
+  options: UbuntuEdgeOptions(
+    enableSmartCloudFallback: true, // Elevates heavy queries to 70B cloud models
+    enableVectorCloudSync: true,    // Multi-device cross-platform RAG sync
+    enableOtaModelUpdates: true,    // 80% compressed Delta OTA model patches
+    multilingualGateway: true,      // Unlocks 50+ Pan-African & Global languages
+  ),
+);</code></pre>
+        </div>
+
+        <div class="doc-alert doc-alert-tip">
+          <i class="fa-solid fa-shield-halved" style="font-size: 1.3rem; color: var(--sketch-mint);"></i>
+          <div>
+            <strong>Zero Data Retention Guarantee:</strong> Ubuntu Edge Cloud Fallback operates under strict Zero Data Retention (ZDR) rules. Prompts are processed strictly in GPU RAM and immediately purged upon response completion.
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Copy code snippet helper
+    function copyCode(button) {
+      const codeBlock = button.parentElement.nextElementSibling.querySelector('code');
+      navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fa-solid fa-check" style="color: #10b981;"></i> Copied!';
+        setTimeout(() => {
+          button.innerHTML = originalText;
+        }, 2000);
+      });
+    }
+
+    // Filter documentation sections via search box
+    function filterDocs() {
+      const query = document.getElementById('docsSearch').value.toLowerCase();
+      const sections = document.querySelectorAll('.docs-section');
+      
+      sections.forEach(sec => {
+        const text = sec.innerText.toLowerCase();
+        if (text.includes(query)) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+
+    // Dynamic Sidebar Active Link Handler & ScrollSpy
+    const sidebarLinks = document.querySelectorAll('.docs-sidebar-links a');
+    const docSections = document.querySelectorAll('.docs-section');
+
+    function setActiveSidebarLink(activeHref) {
+      sidebarLinks.forEach(link => {
+        if (link.getAttribute('href') === activeHref) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          setActiveSidebarLink(href);
+        }
+      });
+    });
+
+    // ScrollSpy: Automatically highlight active section as user scrolls
+    const observerOptions = {
+      root: null,
+      rootMargin: '-10% 0px -65% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          if (id) {
+            setActiveSidebarLink(`#${id}`);
+          }
+        }
+      });
+    }, observerOptions);
+
+    docSections.forEach(sec => observer.observe(sec));
+
+    // Shortcut '/' to focus search box
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        document.getElementById('docsSearch').focus();
+      }
+    });
+  </script>
+
+  <!-- ============================================================
+       KOKO THE CLIMBING KOALA — Full Animated Mascot
+       Koko walks across the bottom, climbs up the edge,
+       perches on section headers and drops witty comments!
+       ============================================================ -->
+  <div id="koala-climber" class="idle" title="Click Koko!" onclick="koalaOnClick()">
+    <svg class="koala-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Arms (behind body) -->
+      <ellipse class="koala-arm-l" cx="18" cy="60" rx="8" ry="5" fill="#78909c" />
+      <ellipse class="koala-arm-r" cx="82" cy="60" rx="8" ry="5" fill="#78909c" />
+      <!-- Legs -->
+      <circle class="koala-leg-l" cx="34" cy="82" r="9" fill="#78909c" />
+      <circle class="koala-leg-r" cx="66" cy="82" r="9" fill="#78909c" />
+      <!-- Ears -->
+      <circle class="koala-ear-l" cx="22" cy="24" r="18" fill="#78909c" />
+      <circle cx="22" cy="24" r="11" fill="#ffb74d" opacity="0.75" />
+      <circle class="koala-ear-r" cx="78" cy="24" r="18" fill="#78909c" />
+      <circle cx="78" cy="24" r="11" fill="#ffb74d" opacity="0.75" />
+      <!-- Head -->
+      <circle cx="50" cy="48" r="32" fill="#90a4ae" />
+      <!-- Cheeks -->
+      <circle cx="31" cy="56" r="7" fill="#f8bbd0" opacity="0.8" />
+      <circle cx="69" cy="56" r="7" fill="#f8bbd0" opacity="0.8" />
+      <!-- Eyes -->
+      <circle class="koala-eye" cx="38" cy="44" r="5" fill="#263238" />
+      <circle class="koala-eye" cx="62" cy="44" r="5" fill="#263238" />
+      <!-- Eye shine -->
+      <circle cx="40" cy="42" r="1.8" fill="#ffffff" />
+      <circle cx="64" cy="42" r="1.8" fill="#ffffff" />
+      <!-- Nose -->
+      <ellipse cx="50" cy="54" rx="9" ry="7" fill="#37474f" />
+      <ellipse cx="48" cy="52" rx="3" ry="4" fill="#546e7a" />
+    </svg>
+  </div>
+  <div id="koala-speech"></div>
+
+  <script>
+    (function() {
+      /* =============================================
+         KOKO CLIMBING ENGINE
+         States: idle → walking → climbing → perched
+         ============================================= */
+      const koala   = document.getElementById('koala-climber');
+      const bubble  = document.getElementById('koala-speech');
+
+      // Section-specific quips
+      const sectionQuips = {
+        'overview':            ['📚 Welcome to the Docs!', '🌿 Open Source is 🔥', '🦘 Koko loves Flutter!'],
+        'installation':        ['📦 pub get denizen_engine!', '⚡ Easy install!', '🛠️ Setup takes 2 mins!'],
+        'quickstart':          ['🚀 Let\'s gooo!', '⚡ Quick start time!', '🔥 GGUF on-device!'],
+        'model-management':    ['🧠 GGUF models FTW!', '📂 Lifecycle managed!', '💾 sqlite-vec ready!'],
+        'prompting-streaming': ['💬 Streaming tokens!', '🌊 Token by token!', '🗣️ Prompt away!'],
+        'vector-rag':          ['🔍 Vector RAG!', '📊 Embeddings offline!', '🧩 No cloud needed!'],
+        'tool-calling':        ['🔧 GBNF grammars!', '🛠️ Tool calling live!', '🎯 Structured output!'],
+        'voice-engine':        ['🎙️ Whisper voice loop!', '🔊 On-device STT!', '🗣️ Speak to Koko!'],
+        'multimodal-vision':   ['👁️ Vision coming v2!', '🖼️ Eyes opening soon!', '🔭 Roadmap ahead!'],
+        'medium-articles':     ['✍️ Great articles!', '📖 Read the blog!', '💡 Learn more here!'],
+        'smart-cloud-fallback':['☁️ Zero data retention!', '🛡️ Privacy first!', '🌐 Edge + Cloud!'],
+        'delta-ota-updates':   ['🔄 OTA sync magic!', '📡 Delta patches!', '🔃 Auto-update!'],
+        'multilingual':        ['🌍 50+ Languages!', '🗺️ Pan-African ready!', '🌐 Go multilingual!'],
+      };
+      const defaultQuips = ['🐨 Hey, I\'m Koko!', '🌿 MIT Licensed!', '💚 Open Source!', '🎯 On-device AI!', '⚡ Zero cloud fees!'];
+
+      let state       = 'idle';
+      let bubbleTimer = null;
+      let quipTimer   = null;
+      let stepTimer   = null;
+      let perchTarget = null;  // { x, y, sectionId }
+      let targets     = [];
+      let targetIdx   = 0;
+      let flipped     = false;
+
+      /* --- Helpers --- */
+      function px(n)  { return n + 'px'; }
+      function rnd(a,b){ return Math.random()*(b-a)+a; }
+
+      function setState(s) {
+        koala.classList.remove('idle','walking','climbing','perched');
+        koala.classList.add(s);
+        state = s;
+      }
+
+      function setPos(x, y) {
+        koala.style.left = px(x);
+        koala.style.top  = px(y);
+      }
+
+      function flipKoala(goLeft) {
+        flipped = goLeft;
+        koala.style.transform = goLeft ? 'scaleX(-1)' : 'scaleX(1)';
+      }
+
+      function showBubble(text, duration) {
+        clearTimeout(bubbleTimer);
+        const kr = koala.getBoundingClientRect();
+        bubble.textContent = text;
+        bubble.classList.add('visible');
+        // Position above the koala
+        const bw = bubble.offsetWidth || 160;
+        let bx = kr.left + kr.width/2 - bw/2;
+        let by = kr.top - 52;
+        // Keep on screen
+        if (bx < 4) bx = 4;
+        if (bx + bw > window.innerWidth - 4) bx = window.innerWidth - bw - 4;
+        if (by < 4) by = 4;
+        bubble.style.left = px(bx);
+        bubble.style.top  = px(by);
+        bubbleTimer = setTimeout(() => bubble.classList.remove('visible'), duration || 3000);
+      }
+
+      function quipFor(sectionId) {
+        const arr = sectionQuips[sectionId] || defaultQuips;
+        return arr[Math.floor(Math.random()*arr.length)];
+      }
+
+      /* --- Build target list from section headers --- */
+      function buildTargets() {
+        targets = [];
+        document.querySelectorAll('.docs-section').forEach(sec => {
+          const h = sec.querySelector('h1,h2,h3');
+          if (!h) return;
+          const r = h.getBoundingClientRect();
+          // We want the koala to sit right on top of the element's bottom edge
+          // Use scroll-relative coordinates
+          const scrollY = window.scrollY || window.pageYOffset;
+          const scrollX = window.scrollX || window.pageXOffset;
+          targets.push({
+            sectionId: sec.id,
+            // Land on left side of header + some offset, clamp to window
+            x: Math.min(Math.max(r.left + scrollX + rnd(30, r.width * 0.6), 60), window.innerWidth - 100),
+            y: r.top  + scrollY - 80,   // sit on top of the heading
+          });
+        });
+        // Add a ground-floor roam target at bottom of viewport
+        targets.push({ sectionId: null, x: rnd(100, window.innerWidth - 150), y: window.innerHeight - 100 });
+      }
+
+      /* --- Movement FSM --- */
+      function nextTarget() {
+        if (!targets.length) { buildTargets(); }
+        targetIdx = (targetIdx + 1) % targets.length;
+        return targets[targetIdx];
+      }
+
+      function moveTo(target) {
+        const cur = koala.getBoundingClientRect();
+        const curX = cur.left;
+        const curY = cur.top;
+
+        // Determine direction
+        const dx = target.x - curX;
+        const dy = target.y - curY;
+        const isClimbPhase = Math.abs(dy) > 60 && Math.abs(dx) < 120;
+
+        flipKoala(dx < 0);
+
+        if (isClimbPhase) {
+          setState('climbing');
+        } else {
+          setState('walking');
+        }
+
+        setPos(target.x, target.y);
+
+        // After transition completes (~650ms), perch
+        clearTimeout(stepTimer);
+        stepTimer = setTimeout(() => {
+          setState('perched');
+          if (target.sectionId) {
+            showBubble(quipFor(target.sectionId), 4000);
+          }
+          // Rest 2.5–5s then move to next target
+          stepTimer = setTimeout(() => {
+            const next = nextTarget();
+            // Convert absolute y to fixed position (account for scroll)
+            const fixedY = next.y - (window.scrollY || window.pageYOffset);
+            const clampedY = Math.max(60, Math.min(fixedY, window.innerHeight - 90));
+            moveTo({ ...next, y: clampedY });
+          }, rnd(2500, 5000));
+        }, 700);
+      }
+
+      /* --- Click handler --- */
+      window.koalaOnClick = function() {
+        const quips = ['😄 Koko says hi!', '🐨 Boop!', '🌿 MIT Licensed!', '⚡ On-device AI!', '🚀 Flutter power!', '🧠 GGUF + llama.cpp!'];
+        showBubble(quips[Math.floor(Math.random()*quips.length)], 3500);
+        // Bounce
+        koala.style.transition = 'transform 0.15s ease';
+        koala.style.transform = (flipped ? 'scaleX(-1) ' : '') + 'scale(1.3)';
+        setTimeout(() => {
+          koala.style.transition = '';
+          koala.style.transform  = flipped ? 'scaleX(-1)' : 'scaleX(1)';
+        }, 200);
+      };
+
+      /* --- Startup --- */
+      function start() {
+        buildTargets();
+        // Begin at bottom-right
+        const startX = window.innerWidth - 120;
+        const startY = window.innerHeight - 95;
+        koala.style.transition = 'none';
+        setPos(startX, startY);
+        setState('idle');
+        // Short greeting
+        setTimeout(() => showBubble('🐨 Hi! I\'m Koko!', 3000), 800);
+        // Start roaming after 2s
+        setTimeout(() => {
+          koala.style.transition = 'left 0.65s cubic-bezier(0.34,1.56,0.64,1), top 0.65s cubic-bezier(0.34,1.56,0.64,1)';
+          const first = targets[0] || { x: startX - 200, y: startY, sectionId: null };
+          const fixedY = first.y - (window.scrollY || window.pageYOffset);
+          moveTo({ ...first, y: Math.max(60, Math.min(fixedY, window.innerHeight - 90)) });
+        }, 2200);
+      }
+
+      // Rebuild targets on scroll (debounced) so coords stay fresh
+      let scrollDebounce;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollDebounce);
+        scrollDebounce = setTimeout(buildTargets, 300);
+      }, { passive: true });
+
+      window.addEventListener('load', start);
+    })();
+  </script>
+</body>
+</html>

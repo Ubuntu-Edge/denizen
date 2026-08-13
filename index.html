@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denizen AI Engine | Privacy-First On-Device Multimodal AI & Quant Studio</title>
+  <meta name="description" content="Run local LLMs, Vector RAG search, GBNF tool calling, and voice sessions 100% offline on mobile devices with Denizen AI Engine for Flutter.">
+  
+  <!-- Google Fonts: Handwritten/Doodle + Clean Modern Tech -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;600;700&family=Architects+Daughter&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Noise & Doodle Grid Pattern -->
+  <div class="doodle-bg-overlay"></div>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-content">
+      <span class="doodle-tag"><i class="fa-solid fa-bolt"></i> NEW RELEASE</span>
+      <span><strong>v2.0 Preview:</strong> Denizen AI Flutter Engine & Quant Studio is live!</span>
+      <a href="#buildathons" class="announcement-link">Join Upcoming Buildathons <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <img src="assets/denizen_logo.png" alt="Denizen AI Logo" class="brand-logo-img">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="docs.html" style="color: var(--sketch-mint); font-weight: 700;"><i class="fa-solid fa-book-open"></i> Docs</a></li>
+        <li><a href="#features">Engine Features</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#quant-studio">Quant Studio</a></li>
+        <li><a href="#partners">Field Deployment</a></li>
+        <li><a href="#articles">Medium Articles</a></li>
+        <li><a href="#buildathons">Buildathons</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="https://github.com/Ubuntu-Edge/denizen-ai-sdk" target="_blank" class="btn btn-sketch-outline">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+        <a href="#code-demo" class="btn btn-sketch-primary">
+          Get SDK <i class="fa-solid fa-arrow-down-long"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <!-- Cartoon Doodle Badges -->
+        <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap;">
+          <div class="doodle-sticker">🤖 <span>Local AI Engine</span></div>
+          <div class="doodle-sticker sticker-yellow">⚡ <span>Zero Cloud Fees</span></div>
+          <div class="doodle-sticker sticker-cyan">🔒 <span>100% On-Device</span></div>
+        </div>
+
+        <!-- Sketch Badge -->
+        <div class="sketch-badge">
+          <svg class="badge-squiggle" viewBox="0 0 200 60" fill="none">
+            <path d="M10 30 C 50 5, 150 55, 190 30" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <span class="handwriting">✨ Scaled from Ubuntu Afya for Africa & Beyond</span>
+        </div>
+
+        <h1 class="hero-title" style="position: relative;">
+          <!-- Animated Cartoon Climbing Koala Mascot -->
+          <div class="koala-container" style="position: absolute; top: -45px; left: -22px;">
+            <svg class="koala-mascot" viewBox="0 0 100 100" width="55" height="55" title="Koko the Denizen Koala Mascot!">
+              <circle class="koala-ear-left" cx="22" cy="28" r="18" fill="#78909c" />
+              <circle cx="22" cy="28" r="11" fill="#ffb74d" opacity="0.7" />
+              <circle class="koala-ear-right" cx="78" cy="28" r="18" fill="#78909c" />
+              <circle cx="78" cy="28" r="11" fill="#ffb74d" opacity="0.7" />
+              <circle cx="50" cy="50" r="32" fill="#90a4ae" />
+              <circle cx="32" cy="58" r="6" fill="#f8bbd0" opacity="0.8" />
+              <circle cx="68" cy="58" r="6" fill="#f8bbd0" opacity="0.8" />
+              <circle class="koala-eye" cx="38" cy="46" r="4" fill="#263238" />
+              <circle class="koala-eye" cx="62" cy="46" r="4" fill="#263238" />
+              <circle cx="39.5" cy="44.5" r="1.5" fill="#ffffff" />
+              <circle cx="63.5" cy="44.5" r="1.5" fill="#ffffff" />
+              <ellipse cx="50" cy="56" rx="9" ry="13" fill="#37474f" />
+              <ellipse cx="48" cy="53" rx="3" ry="5" fill="#546e7a" />
+              <circle cx="24" cy="74" r="7" fill="#78909c" />
+              <circle cx="76" cy="74" r="7" fill="#78909c" />
+            </svg>
+          </div>
+          Run On-Device AI.<br>
+          <span class="sketch-highlight">100% Offline.</span><br>
+          Zero Cloud Fees.
+          <!-- Starburst doodle -->
+          <svg class="doodle-starburst" viewBox="0 0 60 60" fill="none">
+            <path d="M30 5 L30 55 M5 30 L55 30 M12 12 L48 48 M12 48 L48 12" stroke="#fde047" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </h1>
+
+        <p class="hero-subtitle">
+          The privacy-first local LLM orchestrator & SDK for Flutter apps. Powered by pre-compiled C++ native acceleration (`libllama.so`), offline vector RAG, GBNF schema tool calling, and local context SLMs.
+        </p>
+
+        <!-- Command Line Copy Box -->
+        <div class="install-box">
+          <div class="install-command">
+            <span class="prompt">$</span>
+            <code id="pub-command">flutter pub add denizen_ai</code>
+          </div>
+          <button class="copy-btn" onclick="copyInstallCmd()" aria-label="Copy Command">
+            <i class="fa-regular fa-copy" id="copy-icon"></i>
+            <span id="copy-text">Copy</span>
+          </button>
+        </div>
+
+        <div class="hero-buttons">
+          <a href="#quant-studio" class="btn btn-sketch-primary btn-lg">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Try Quant Studio
+          </a>
+          <a href="docs.html" class="btn btn-sketch-outline btn-lg">
+            <i class="fa-solid fa-book-open"></i> Explore Developer Docs
+          </a>
+        </div>
+
+        <!-- Sticky Note Annotation -->
+        <div class="sketch-sticky-note">
+          <span class="pin">📌</span>
+          <p class="handwriting">
+            "Currently in evaluation phase & test mode for field deployment!"
+          </p>
+        </div>
+      </div>
+
+      <!-- Hero Visual / Dynamic Card -->
+      <div class="hero-visual">
+        <div class="sketch-card visual-card">
+          <div class="card-header-sketch">
+            <div class="doodle-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <span class="handwriting-sm">⚡ Live Engine Benchmark Dashboard</span>
+          </div>
+
+          <div class="visual-metrics">
+            <div class="metric-box">
+              <span class="metric-value text-mint">0.00ms</span>
+              <span class="metric-label">Cloud API Cost</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-value text-cyan">18.4 t/s</span>
+              <span class="metric-label">Token Generation</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-value text-yellow">100%</span>
+              <span class="metric-label">Offline Privacy</span>
+            </div>
+          </div>
+
+          <!-- Interactive Engine Status Simulator -->
+          <div class="engine-status-box">
+            <div class="status-row">
+              <span><i class="fa-solid fa-microchip"></i> Native C++ Accelerated</span>
+              <span class="badge-status badge-active">Active (libllama.so)</span>
+            </div>
+            <div class="status-row">
+              <span><i class="fa-solid fa-database"></i> Vector RAG Store</span>
+              <span class="badge-status badge-active">sqlite-vec Ready</span>
+            </div>
+            <div class="status-row">
+              <span><i class="fa-solid fa-file-code"></i> GBNF Schema Engine</span>
+              <span class="badge-status badge-active">JSON Guard On</span>
+            </div>
+            <div class="status-row">
+              <span><i class="fa-solid fa-microphone"></i> Offline Voice Loop</span>
+              <span class="badge-status badge-active">Whisper + TTS</span>
+            </div>
+          </div>
+
+          <!-- Sketch Arrow pointing down -->
+          <svg class="sketch-arrow" viewBox="0 0 100 80" fill="none">
+            <path d="M10 10 Q 50 70 85 40 M 85 40 L 70 30 M 85 40 L 75 55" stroke="#fb7185" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid Section -->
+  <section id="features" class="section-padding">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="features-banner-container">
+          <img src="assets/denizen_header.png" alt="Denizen AI Engine Features" class="features-header-img">
+        </div>
+        <h2 class="section-title">Built for Tough Edge Environments</h2>
+        <p class="section-subtitle">Everything you need to ship autonomous on-device AI applications without internet reliance.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="sketch-card feature-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="feature-icon icon-mint">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <span class="doodle-sticker" style="font-size: 0.85rem; padding: 2px 8px;">⚡ GGUF C++</span>
+          </div>
+          <h3>Stateful GGUF LLM Execution</h3>
+          <p>Stream tokens locally using pre-compiled native binaries. Managed memory lifecycle, context window eviction, and zero data leakage.</p>
+          <span class="handwriting-tag">Android ARM64 & Windows</span>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="sketch-card feature-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="feature-icon icon-cyan">
+              <i class="fa-solid fa-magnifying-glass-location"></i>
+            </div>
+            <span class="doodle-sticker sticker-cyan" style="font-size: 0.85rem; padding: 2px 8px;">🧠 sqlite-vec</span>
+          </div>
+          <h3>Offline Vector RAG Search</h3>
+          <p>Local PDF & domain document ingestion powered by TF-Lite embedding extraction and <code>sqlite-vec</code> vector storage.</p>
+          <span class="handwriting-tag">Domain Knowledge RAG</span>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="sketch-card feature-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="feature-icon icon-yellow">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+            <span class="doodle-sticker sticker-yellow" style="font-size: 0.85rem; padding: 2px 8px;">🛠️ GBNF Strict</span>
+          </div>
+          <h3>GBNF Tool Calling</h3>
+          <p>Context-free grammar constraints guarantee 100% structured JSON outputs for automated workflow triage and field reports.</p>
+          <span class="handwriting-tag">Zero JSON Syntax Errors</span>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="sketch-card feature-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="feature-icon icon-pink">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <span class="doodle-sticker sticker-pink" style="font-size: 0.85rem; padding: 2px 8px;">🎙️ Whisper STT</span>
+          </div>
+          <h3>Conversational Voice Loop</h3>
+          <p>Hands-free voice consultation loop with offline Whisper Speech-to-Text and on-device text-to-speech for field operations.</p>
+          <span class="handwriting-tag">Hands-Free Field Mode</span>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="sketch-card feature-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="feature-icon icon-purple">
+              <i class="fa-solid fa-eye"></i>
+            </div>
+            <span class="doodle-sticker sticker-cyan" style="font-size: 0.85rem; padding: 2px 8px;">👁️ v2.0 Roadmap</span>
+          </div>
+          <h3>Multimodal Vision Analysis</h3>
+          <p>Analyze visual data, field photos, inspection reports, and diagnostic indicators directly on device.</p>
+          <span class="handwriting-tag">MobileVLM & LLaVA</span>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="sketch-card feature-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+            <div class="feature-icon icon-orange">
+              <i class="fa-solid fa-globe-africa"></i>
+            </div>
+            <span class="doodle-sticker sticker-yellow" style="font-size: 0.85rem; padding: 2px 8px;">🌍 Context SLMs</span>
+          </div>
+          <h3>Context-Preserving SLMs</h3>
+          <p>Ultra-compact Small Language Models (1.5B–3B) fine-tuned specifically for local contextual knowledge and multi-lingual nuances.</p>
+          <span class="handwriting-tag">Local Language Context</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Circuit & Architecture Section -->
+  <section id="architecture" class="section-padding architecture-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="handwriting-badge bg-yellow">⚡ Hardware Silicon & Circuit</span>
+        <h2 class="section-title">On-Device Inference Pipeline</h2>
+        <p class="section-subtitle">Pre-compiled C++ hardware execution, automated logic switching, and memory-safe sliding window eviction.</p>
+      </div>
+
+      <div class="sketch-card architecture-card">
+        <div class="chip-image-container">
+          <img src="assets/denizen_architecture_chip.jpg" alt="Denizen Offline AI Engine Architecture Chip Diagram" class="chip-diagram-img">
+        </div>
+        <div class="chip-caption-box">
+          <div class="caption-item">
+            <span class="caption-title"><i class="fa-solid fa-microchip text-mint"></i> CPU Inference (NEON Optimized)</span>
+            <p>Direct C++ bindings with low-level ARM64 vector SIMD instructions for maximum battery-efficient token generation.</p>
+          </div>
+          <div class="caption-item">
+            <span class="caption-title"><i class="fa-solid fa-bolt text-cyan"></i> GPU/NPU Offloading</span>
+            <p>Vulkan/OpenCL acceleration for mid-tier and flagship mobile SoCs, offloading layers dynamically.</p>
+          </div>
+          <div class="caption-item">
+            <span class="caption-title"><i class="fa-solid fa-shield-halved text-yellow"></i> Sliding Window Eviction</span>
+            <p>Automated memory-safe conversation circuit removing old dialogue turns while keeping system prompts untouchable.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Quant Studio Showcase -->
+  <section id="quant-studio" class="section-padding quant-section">
+    <div class="container">
+      <div class="quant-wrapper sketch-card">
+        <div class="quant-header">
+          <div class="quant-title-area">
+            <span class="handwriting-badge bg-yellow">✨ Introducing Quant Studio</span>
+            <h2>Take the Tough Steps Out of Model Quantization</h2>
+            <p>Non-technical domain experts and developers can convert, compress, and optimize FP16 models to on-device GGUF formats with zero command-line headaches.</p>
+          </div>
+        </div>
+
+        <!-- Interactive Quant Studio Simulator -->
+        <div class="quant-simulator-grid">
+          <div class="quant-controls">
+            <div class="form-group">
+              <label><i class="fa-solid fa-file-import"></i> Target Model Name</label>
+              <input type="text" class="sketch-input" value="ubuntu-afya-medgemma-3b-fp16.bin" readonly>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fa-solid fa-layer-group"></i> Quantization Method</label>
+              <select id="quant-method" class="sketch-select" onchange="updateQuantSim()">
+                <option value="Q4_K_M" selected>Q4_K_M (Recommended - Balanced 4-bit)</option>
+                <option value="Q5_K_M">Q5_K_M (Higher Precision 5-bit)</option>
+                <option value="Q8_0">Q8_0 (Maximum Quality 8-bit)</option>
+                <option value="Q2_K">Q2_K (Extreme Compression 2-bit)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fa-solid fa-microchip"></i> Target Hardware Target</label>
+              <div class="chip-options">
+                <span class="chip active">Android Budget (4GB RAM)</span>
+                <span class="chip">Mid-Tier Phone (6-8GB)</span>
+                <span class="chip">Edge Linux Board</span>
+              </div>
+            </div>
+
+            <!-- Interactive Compression Gauge -->
+            <div class="compression-stats">
+              <div class="stat-item">
+                <span class="stat-label">Original Size</span>
+                <span class="stat-val" id="stat-orig">6.8 GB</span>
+              </div>
+              <div class="stat-arrow"><i class="fa-solid fa-right-long"></i></div>
+              <div class="stat-item">
+                <span class="stat-label">Quantized Size</span>
+                <span class="stat-val text-mint" id="stat-quant">1.9 GB</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">RAM Required</span>
+                <span class="stat-val text-cyan" id="stat-ram">2.4 GB</span>
+              </div>
+            </div>
+
+            <button class="btn btn-sketch-primary btn-block btn-lg" id="run-quant-btn" onclick="simulateQuantization()">
+              <i class="fa-solid fa-play"></i> Run One-Click Quantization
+            </button>
+          </div>
+
+          <!-- Studio Live Console / Output -->
+          <div class="quant-console-box">
+            <div class="console-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span class="console-title">Quant Studio Automated Pipeline</span>
+            </div>
+            <pre class="console-body" id="console-logs">
+<span class="log-info">[INFO] Initializing Quant Studio Pipeline v2.0...</span>
+<span class="log-info">[INFO] Inspecting source model weights: FP16 PyTorch state_dict...</span>
+<span class="log-success">[SUCCESS] Preserving local Kiswahili context tokens & clinical vocabulary!</span>
+<span class="log-warn">[READY] Select quantization level and click 'Run One-Click Quantization'.</span>
+            </pre>
+            
+            <div class="progress-bar-sketch">
+              <div class="progress-fill" id="quant-progress"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- Production Deployment Section -->
+  <section id="partners" class="section-padding partners-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="handwriting-badge">🏥 Field Proven Technology</span>
+        <h2 class="section-title">Built & Tested for Real-World Field Impact</h2>
+        <p class="section-subtitle">Engineered for frontline healthcare workers and students operating in zero-connectivity environments across Kenya & East Africa.</p>
+      </div>
+
+      <div class="partners-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); max-width: 980px; margin: 0 auto; gap: 24px;">
+        <!-- Partner: Ubuntu Afya -->
+        <div class="sketch-card partner-card">
+          <div class="partner-badge badge-active">Evaluation & Field Test Phase</div>
+          <div class="partner-logo-box">
+            <i class="fa-solid fa-heart-pulse partner-icon icon-pink"></i>
+            <h3>Ubuntu Afya</h3>
+            <span class="partner-location">East Africa Health Tech</span>
+          </div>
+          <p class="partner-desc">
+            Evaluating on-device medical decision support, clinical guideline vector search, and hands-free voice consultation for field workers in rural environments.
+          </p>
+          <ul class="partner-highlights">
+            <li><i class="fa-solid fa-check text-mint"></i> Evaluation & Field Test Mode</li>
+            <li><i class="fa-solid fa-check text-mint"></i> 100% Offline Medical AI</li>
+            <li><i class="fa-solid fa-check text-mint"></i> On-Device Clinical Guidelines RAG</li>
+          </ul>
+        </div>
+
+        <!-- Partner: Ubuntu Elimu -->
+        <div class="sketch-card partner-card">
+          <div class="partner-badge badge-active">Active Field Testing Mode</div>
+          <div class="partner-logo-box">
+            <i class="fa-solid fa-graduation-cap partner-icon icon-cyan" style="color: var(--sketch-cyan); font-size: 2.2rem;"></i>
+            <h3>Ubuntu Elimu</h3>
+            <span class="partner-location">Kenya Offline EdTech</span>
+          </div>
+          <p class="partner-desc">
+            Distributed to multiple students across Kenya in test mode for offline curriculum tutoring, exam preparation, past paper reasoning, and interactive study assistance.
+          </p>
+          <ul class="partner-highlights">
+            <li><i class="fa-solid fa-check text-mint"></i> Distributed to Students Across Kenya</li>
+            <li><i class="fa-solid fa-check text-mint"></i> 100% Offline EdTech AI Tutor</li>
+            <li><i class="fa-solid fa-check text-mint"></i> Curriculum Vector Search & RAG</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Medium Articles & Technical Deep-Dives Section -->
+  <section id="articles" class="section-padding articles-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="handwriting-badge bg-yellow">📰 Engineering Deep-Dives</span>
+        <h2 class="section-title">Read Our Articles on Medium</h2>
+        <p class="section-subtitle">Technical breakdowns, architecture guides, and on-device AI engineering insights.</p>
+      </div>
+
+      <div class="articles-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1050px; margin: 0 auto;">
+        <!-- Medium Article 1 -->
+        <a href="https://medium.com/@ibrahimfadhili/how-i-shrunk-a-6-62gb-medical-ai-to-fit-on-a-community-health-workers-phone-7bb77befe1d0" target="_blank" class="sketch-card article-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="doodle-tag"><i class="fa-brands fa-medium"></i> Medium</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">6 min read</span>
+            </div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 8px; color: var(--sketch-mint);">How I Shrunk a 6.62GB Medical AI to Fit on a Community Health Worker's Phone</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+              A practical engineering account of quantizing and optimizing a heavy 6.62GB clinical model to run smoothly 100% offline on budget Android phones in rural environments.
+            </p>
+          </div>
+          <div style="margin-top: 16px; font-size: 0.88rem; font-weight: 700; color: var(--sketch-cyan);">
+            Read Article on Medium <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>
+
+        <!-- Medium Article 2 -->
+        <a href="https://medium.com/@ibrahimfadhili/shrinking-ai-models-by-75-a-practical-guide-to-pytorch-int8-quantization-f8a24836bc28" target="_blank" class="sketch-card article-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="doodle-tag"><i class="fa-brands fa-medium"></i> Medium</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">8 min read</span>
+            </div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 8px; color: var(--sketch-cyan);">Shrinking AI Models by 75%: A Practical Guide to PyTorch INT8 Quantization</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+              A step-by-step technical guide to compressing neural network weights by 75% using PyTorch INT8 dynamic and static quantization without losing accuracy.
+            </p>
+          </div>
+          <div style="margin-top: 16px; font-size: 0.88rem; font-weight: 700; color: var(--sketch-cyan);">
+            Read Article on Medium <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>
+
+        <!-- Medium Article 3 -->
+        <a href="https://medium.com/@ibrahimfadhili/can-edge-ai-help-build-a-more-sustainable-future-d96461188111" target="_blank" class="sketch-card article-card" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="doodle-tag"><i class="fa-brands fa-medium"></i> Medium</span>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">5 min read</span>
+            </div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 8px; color: var(--sketch-yellow);">Can Edge AI Help Build a More Sustainable Future?</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+              Analyzing the environmental footprint, energy reduction, and sustainability benefits of offloading AI inference from mega-datacenters to local edge hardware.
+            </p>
+          </div>
+          <div style="margin-top: 16px; font-size: 0.88rem; font-weight: 700; color: var(--sketch-cyan);">
+            Read Article on Medium <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Buildathons & Hackathons Section -->
+  <section id="buildathons" class="section-padding buildathons-section">
+    <div class="container">
+      <div class="sketch-card buildathon-cta-box">
+        <div class="buildathon-content">
+          <span class="handwriting-badge bg-pink">🚀 Ecosystem Activation Strategy</span>
+          <h2>Join Our Developer Buildathons & Hackathons</h2>
+          <p>
+            We are actively hosting tech events, hands-on buildathons, and developer hackathons across East Africa to put `denizen_ai` and Quant Studio directly into the hands of creators.
+          </p>
+          <div class="buildathon-stats">
+            <div class="b-stat">
+              <span class="b-num">3+</span>
+              <span class="b-text">Upcoming Hackathons</span>
+            </div>
+            <div class="b-stat">
+              <span class="b-num">$10K+</span>
+              <span class="b-text">In Bounties & Grants</span>
+            </div>
+            <div class="b-stat">
+              <span class="b-num">100%</span>
+              <span class="b-text">On-Device Tech Stack</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="buildathon-form-box">
+          <h3 class="handwriting"><i class="fa-solid fa-ticket"></i> Get Invited to the Next Event</h3>
+          <form onsubmit="handleRegistration(event)">
+            <input type="email" required placeholder="Enter your developer email..." class="sketch-input mb-3">
+            <select class="sketch-select mb-3">
+              <option value="developer">Mobile / Flutter Developer</option>
+              <option value="researcher">AI / ML Researcher</option>
+              <option value="health">Healthcare Innovator</option>
+              <option value="student">Student / Hobbyist</option>
+            </select>
+            <button type="submit" class="btn btn-sketch-primary btn-block">
+              Register Interest <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+          <p id="reg-msg" class="reg-message"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <img src="assets/denizen_logo.png" alt="Denizen AI Logo" class="brand-logo-img">
+        </a>
+        <p class="footer-tagline">On-Device Privacy-First AI Engine & Quant Studio for Africa & Beyond.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#features">Engine Features</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#quant-studio">Quant Studio</a></li>
+          <li><a href="#code-demo">Flutter SDK</a></li>
+          <li><a href="#partners">Field Deployment</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Ecosystem</h4>
+        <ul>
+          <li><a href="https://github.com/Ubuntu-Edge/denizen-ai-sdk" target="_blank"><i class="fa-brands fa-github"></i> GitHub Repository</a></li>
+          <li><a href="https://www.linkedin.com/company/ubuntu-afya/" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+          <li><a href="#buildathons">Buildathons & Hackathons</a></li>
+          <li><a href="#">Ubuntu Afya Project</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Denizen AI. All rights reserved.</p>
+      <p class="handwriting-sm">Hand-crafted with ❤️ for resource-constrained environments.</p>
+    </div>
+  </footer>
+
+  <!-- =============================================================
+       KOKO THE CLIMBING KOALA — Landing Page Edition
+       Walks, climbs, and perches on section headers!
+       ============================================================= -->
+  <div id="koala-climber" class="idle" title="Click Koko!" onclick="koalaOnClick()">
+    <svg class="koala-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Arms (behind body) -->
+      <ellipse class="koala-arm-l" cx="18" cy="60" rx="8" ry="5" fill="#78909c" />
+      <ellipse class="koala-arm-r" cx="82" cy="60" rx="8" ry="5" fill="#78909c" />
+      <!-- Legs -->
+      <circle class="koala-leg-l" cx="34" cy="82" r="9" fill="#78909c" />
+      <circle class="koala-leg-r" cx="66" cy="82" r="9" fill="#78909c" />
+      <!-- Ears -->
+      <circle class="koala-ear-l" cx="22" cy="24" r="18" fill="#78909c" />
+      <circle cx="22" cy="24" r="11" fill="#ffb74d" opacity="0.75" />
+      <circle class="koala-ear-r" cx="78" cy="24" r="18" fill="#78909c" />
+      <circle cx="78" cy="24" r="11" fill="#ffb74d" opacity="0.75" />
+      <!-- Head -->
+      <circle cx="50" cy="48" r="32" fill="#90a4ae" />
+      <!-- Cheeks -->
+      <circle cx="31" cy="56" r="7" fill="#f8bbd0" opacity="0.8" />
+      <circle cx="69" cy="56" r="7" fill="#f8bbd0" opacity="0.8" />
+      <!-- Eyes -->
+      <circle class="koala-eye" cx="38" cy="44" r="5" fill="#263238" />
+      <circle class="koala-eye" cx="62" cy="44" r="5" fill="#263238" />
+      <!-- Eye shine -->
+      <circle cx="40" cy="42" r="1.8" fill="#ffffff" />
+      <circle cx="64" cy="42" r="1.8" fill="#ffffff" />
+      <!-- Nose -->
+      <ellipse cx="50" cy="54" rx="9" ry="7" fill="#37474f" />
+      <ellipse cx="48" cy="52" rx="3" ry="4" fill="#546e7a" />
+    </svg>
+  </div>
+  <div id="koala-speech"></div>
+
+  <script>
+    (function() {
+      /* =============================================
+         KOKO CLIMBING ENGINE — Landing Page Edition
+         States: idle → walking → climbing → perched
+         ============================================= */
+      const koala  = document.getElementById('koala-climber');
+      const bubble = document.getElementById('koala-speech');
+
+      // Landing-page section quips
+      const sectionQuips = {
+        'features':     ['🔥 GGUF on-device!', '⚡ Zero API fees!', '🧩 Plug & play AI!'],
+        'architecture': ['🏗️ Clean pipeline!', '⚙️ llama.cpp power!', '🔬 See how it works!'],
+        'quant-studio': ['📦 Shrink your model!', '🗜️ Q4_K_M FTW!', '💾 From 6.8→1.9 GB!'],
+        'partners':     ['🏥 Ubuntu Afya live!', '🎓 Ubuntu Elimu!', '🌍 Field-tested!'],
+        'articles':     ['✍️ Great reads!', '📖 Read on Medium!', '💡 Learn the tricks!'],
+        'buildathons':  ['🎉 Hackathon time!', '🚀 Build with us!', '🏆 Win prizes!'],
+      };
+      const defaultQuips = [
+        '🐨 Hey, I\'m Koko!', '🌿 MIT Licensed!', '💚 100% Open Source!',
+        '⚡ Zero Cloud Fees!', '🎯 On-device AI!', '🚀 Flutter + AI!',
+      ];
+
+      let state      = 'idle';
+      let bubbleTimer, stepTimer;
+      let targets    = [];
+      let targetIdx  = 0;
+      let flipped    = false;
+
+      function px(n)    { return n + 'px'; }
+      function rnd(a,b) { return Math.random()*(b-a)+a; }
+
+      function setState(s) {
+        koala.classList.remove('idle','walking','climbing','perched');
+        koala.classList.add(s);
+        state = s;
+      }
+
+      function setPos(x, y) {
+        koala.style.left = px(x);
+        koala.style.top  = px(y);
+      }
+
+      function flipKoala(goLeft) {
+        flipped = goLeft;
+        koala.style.transform = goLeft ? 'scaleX(-1)' : 'scaleX(1)';
+      }
+
+      function showBubble(text, duration) {
+        clearTimeout(bubbleTimer);
+        const kr = koala.getBoundingClientRect();
+        bubble.textContent = text;
+        bubble.classList.add('visible');
+        const bw = bubble.offsetWidth || 170;
+        let bx = kr.left + kr.width/2 - bw/2;
+        let by = kr.top - 52;
+        if (bx < 4)                        bx = 4;
+        if (bx + bw > window.innerWidth-4) bx = window.innerWidth - bw - 4;
+        if (by < 4)                        by = 4;
+        bubble.style.left = px(bx);
+        bubble.style.top  = px(by);
+        bubbleTimer = setTimeout(() => bubble.classList.remove('visible'), duration || 3000);
+      }
+
+      function quipFor(id) {
+        const arr = sectionQuips[id] || defaultQuips;
+        return arr[Math.floor(Math.random()*arr.length)];
+      }
+
+      function buildTargets() {
+        targets = [];
+        // Walk across section headings
+        ['features','architecture','quant-studio','partners','articles','buildathons'].forEach(id => {
+          const sec = document.getElementById(id);
+          if (!sec) return;
+          const h = sec.querySelector('h1,h2,h3');
+          if (!h) return;
+          const r = h.getBoundingClientRect();
+          const scrollY = window.scrollY || window.pageYOffset;
+          targets.push({
+            sectionId: id,
+            x: Math.min(Math.max(r.left + rnd(40, r.width * 0.55), 60), window.innerWidth - 100),
+            y: r.top + scrollY - 80,
+          });
+        });
+        // Also roam the bottom
+        targets.push({ sectionId: null, x: rnd(100, window.innerWidth - 150), y: window.innerHeight - 100 });
+      }
+
+      function nextTarget() {
+        if (!targets.length) buildTargets();
+        targetIdx = (targetIdx + 1) % targets.length;
+        return targets[targetIdx];
+      }
+
+      function moveTo(target) {
+        const cur = koala.getBoundingClientRect();
+        const dx  = target.x - cur.left;
+        const dy  = target.y - cur.top;
+        const isClimb = Math.abs(dy) > 60 && Math.abs(dx) < 120;
+
+        flipKoala(dx < 0);
+        setState(isClimb ? 'climbing' : 'walking');
+        setPos(target.x, target.y);
+
+        clearTimeout(stepTimer);
+        stepTimer = setTimeout(() => {
+          setState('perched');
+          if (target.sectionId) showBubble(quipFor(target.sectionId), 4000);
+          // Rest then go to next
+          stepTimer = setTimeout(() => {
+            const next = nextTarget();
+            const fixedY  = next.y - (window.scrollY || window.pageYOffset);
+            const clampedY = Math.max(60, Math.min(fixedY, window.innerHeight - 90));
+            moveTo({ ...next, y: clampedY });
+          }, rnd(2500, 5000));
+        }, 700);
+      }
+
+      window.koalaOnClick = function() {
+        const q = ['😄 Boop!','🐨 Koko!','🌿 MIT!','⚡ Edge AI!','🚀 Flutter!','🧠 llama.cpp!'];
+        showBubble(q[Math.floor(Math.random()*q.length)], 3000);
+        koala.style.transition = 'transform 0.15s ease';
+        koala.style.transform  = (flipped ? 'scaleX(-1) ' : '') + 'scale(1.3)';
+        setTimeout(() => {
+          koala.style.transition = '';
+          koala.style.transform  = flipped ? 'scaleX(-1)' : 'scaleX(1)';
+        }, 200);
+      };
+
+      function start() {
+        buildTargets();
+        const startX = window.innerWidth - 120;
+        const startY = window.innerHeight - 95;
+        koala.style.transition = 'none';
+        setPos(startX, startY);
+        setState('idle');
+        setTimeout(() => showBubble('🐨 Hi! I\'m Koko!', 3000), 800);
+        setTimeout(() => {
+          koala.style.transition = 'left 0.65s cubic-bezier(0.34,1.56,0.64,1), top 0.65s cubic-bezier(0.34,1.56,0.64,1)';
+          const first = targets[0] || { x: startX - 200, y: startY, sectionId: null };
+          const fixedY = first.y - (window.scrollY || window.pageYOffset);
+          moveTo({ ...first, y: Math.max(60, Math.min(fixedY, window.innerHeight - 90)) });
+        }, 2200);
+      }
+
+      let scrollDebounce;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollDebounce);
+        scrollDebounce = setTimeout(buildTargets, 300);
+      }, { passive: true });
+
+      window.addEventListener('load', start);
+    })();
+  </script>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
