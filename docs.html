@@ -500,20 +500,15 @@ import 'package:path/path.dart' as p;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final docsDir = await getApplicationDocumentsDirectory();
-  final modelPath = p.join(docsDir.path, 'models', 'qwen2.5-0.5b-instruct-q4_k_m.gguf');
-
   final denizen = DenizenAI();
   
-  // Download model if not cached
-  await denizen.models.downloadModel(
-    url: 'https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf',
-    modelId: 'qwen2.5-0.5b-q4',
-    savePath: modelPath,
+  // Download (if missing) and load GGUF model into native RAM in a single call
+  await denizen.models.load(
+    'qwen2.5-0.5b-q4',
+    onProgress: (progress) {
+      print('Download: ${progress.percent.toStringAsFixed(1)}%');
+    },
   );
-
-  // Load GGUF model into native llama.cpp memory
-  await denizen.models.loadFromFile(modelPath);
 
   // Create stateful conversation session
   final session = denizen.createSession(systemPrompt: 'You are an offline assistant.');
