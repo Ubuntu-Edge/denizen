@@ -563,49 +563,55 @@ try {
 // /sdcard/Download/ or /data/local/tmp/ for offline enterprise deployment!</code></pre>
         </div>
 
-        <h2>Supported Micro-Models</h2>
+        <h2>Edge AI Model Tier Matrix</h2>
         <table class="params-table">
           <thead>
             <tr>
-              <th>Model ID</th>
-              <th>Size</th>
-              <th>Quantization</th>
-              <th>Ideal Device Target</th>
+              <th>Tier / Class</th>
+              <th>Top Models</th>
+              <th>Parameter Size</th>
+              <th>RAM / VRAM Target</th>
+              <th>Primary Strength</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><code>qwen2.5-0.5b-q4</code></td>
-              <td>~398 MB</td>
-              <td>Q4_K_M</td>
-              <td>Recommended default for budget mobile phones (1.5GB RAM). Fast inference, ultra-low footprint.</td>
+              <td><strong>⚡ Ultra-Lightweight</strong></td>
+              <td><code>qwen2.5-0.5b-q4</code><br><code>llama-3.2-1b-q4</code></td>
+              <td>0.5B – 1.0B</td>
+              <td>0.8 GB – 1.2 GB</td>
+              <td>Fast token decoding on low-end mobile CPUs, intent routing, and lightweight mobile Q&A.</td>
             </tr>
             <tr>
-              <td><code>gemma-2-2b-q4</code></td>
-              <td>~1.63 GB</td>
-              <td>Q4_K_M</td>
-              <td>Google Gemma 2 2B Instruct. Superior reasoning, math, and high-accuracy instruction following for RAG.</td>
+              <td><strong>🎯 Edge Sweet Spot</strong></td>
+              <td><code>gemma-2-2b-q4</code><br><code>qwen2.5-1.5b-q4</code><br><code>llama-3.2-3b-q4</code></td>
+              <td>1.5B – 3.0B</td>
+              <td>1.5 GB – 2.5 GB</td>
+              <td>Best performance-to-size ratio; offline RAG, document reasoning, and Socratic tutoring.</td>
             </tr>
             <tr>
-              <td><code>llama-3.2-1b-q4</code></td>
-              <td>~758 MB</td>
-              <td>Q4_K_M</td>
-              <td>Meta Llama 3.2 1B. High instruction-following quality; ideal for general mobile assistants.</td>
+              <td><strong>🧠 High-End Edge</strong></td>
+              <td><code>phi-3.5-mini-q4</code><br><code>qwen2.5-7b-q4</code></td>
+              <td>3.8B – 7.0B</td>
+              <td>4.5 GB – 6.0 GB</td>
+              <td>Deep analytical reasoning, complex math, and multi-turn conversational accuracy on 6GB+ devices.</td>
             </tr>
             <tr>
-              <td><code>qwen2.5-1.5b-q4</code></td>
-              <td>~980 MB</td>
-              <td>Q4_K_M</td>
-              <td>Alibaba Qwen 2.5 1.5B. Excellent multilingual & Kiswahili reasoning under 1.5GB RAM.</td>
-            </tr>
-            <tr>
-              <td><code>phi-3.5-mini-q4</code></td>
-              <td>~2.39 GB</td>
-              <td>Q4_K_M</td>
-              <td>Microsoft Phi-3.5 Mini. Heavy reasoning model; requires devices with 6GB+ RAM.</td>
+              <td><strong>👁️ Edge Multimodal (VLM)</strong></td>
+              <td><code>minicpm-v-2.6-gguf</code><br><code>qwen2.5-vl-3b</code></td>
+              <td>3.0B – 7.0B</td>
+              <td>3.5 GB – 6.5 GB</td>
+              <td>On-device OCR, document parsing, chart analysis, and real-time visual question answering.</td>
             </tr>
           </tbody>
         </table>
+
+        <h2>Recommended Quantization Presets</h2>
+        <ul>
+          <li><strong><code>Q4_K_M</code> (Balanced Default):</strong> Preserves ~98% of baseline FP16 quality while halving memory footprint and maximizing llama.cpp vector acceleration.</li>
+          <li><strong><code>Q5_K_M</code> (High Precision):</strong> Recommended for 1B–1.5B models where quantization noise at 4-bit leads to token degradation.</li>
+          <li><strong><code>Q3_K_M</code> / <code>Q2_K</code> (Extreme Constraints):</strong> Useful if you need to run 3B+ models on devices capped at 2GB–3GB usable memory.</li>
+        </ul>
       </section>
 
       <!-- SECTION 5: DEEP DIVE - PROMPTING & STREAMING -->
