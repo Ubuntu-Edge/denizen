@@ -218,3 +218,118 @@ function handleRegistration(e) {
   msg.innerText = '🎉 You are on the priority list for the next Buildathon!';
   e.target.reset();
 }
+
+// ==========================================================================
+// CodeLab Interactive Sandbox Simulation
+// ==========================================================================
+const codeLabDemos = {
+  mpesa: {
+    title: '💸 M-Pesa Fee Calculator',
+    sub: 'Compute transaction fees offline on DLP tablets.',
+    btnText: 'Compute Fee',
+    prompt: 'Change button background to glowing emerald green',
+    diff: {
+      rem: '- background: #4F46E5;',
+      add: '+ background: #10B981; box-shadow: 0 4px 14px rgba(16,185,129,0.4);'
+    },
+    actionStyle: { background: '#10B981', boxShadow: '0 4px 14px rgba(16,185,129,0.4)' }
+  },
+  flag: {
+    title: '🇰🇪 Kenya Flag (HTML5 Canvas)',
+    sub: 'Rendered with 2D Canvas coordinate geometry.',
+    btnText: 'Draw Maasai Shield',
+    prompt: 'Add Maasai warrior shield white border outline',
+    diff: {
+      rem: '- ctx.lineWidth = 1;',
+      add: '+ ctx.lineWidth = 4; ctx.strokeStyle = "#FFFFFF"; ctx.stroke();'
+    },
+    actionStyle: { background: '#BB0000', boxShadow: '0 0 12px rgba(255,255,255,0.6)' }
+  },
+  quiz: {
+    title: '🦁 Kenyan Wildlife Quiz',
+    sub: 'Interactive quiz tracking student score offline.',
+    btnText: 'Select Cheetah (Fastest)',
+    prompt: 'Highlight correct option in neon cyan on tap',
+    diff: {
+      rem: '- button.style.color = "#E2E8F0";',
+      add: '+ button.style.color = "#38BDF8"; button.style.borderColor = "#38BDF8";'
+    },
+    actionStyle: { background: '#0284C7', boxShadow: '0 0 15px rgba(56,189,248,0.5)' }
+  }
+};
+
+let currentCodeLabKey = 'mpesa';
+
+function selectCodeLabDemo(key) {
+  currentCodeLabKey = key;
+  const demo = codeLabDemos[key];
+
+  document.querySelectorAll('.codelab-template-chip').forEach(c => c.classList.remove('active'));
+  const chip = document.getElementById(`chip-${key}`);
+  if (chip) chip.classList.add('active');
+
+  document.getElementById('demo-title').innerText = demo.title;
+  document.getElementById('demo-sub').innerText = demo.sub;
+  document.getElementById('demo-btn').innerText = demo.btnText;
+  document.getElementById('demo-btn').style.background = '#4F46E5';
+  document.getElementById('demo-btn').style.boxShadow = 'none';
+  document.getElementById('codelab-user-prompt').value = demo.prompt;
+  document.getElementById('demo-output').innerText = '';
+  document.getElementById('codelab-diff-view').style.display = 'none';
+
+  // Reset pipeline steps
+  document.getElementById('pipe-step-1').className = 'pipeline-step';
+  document.getElementById('pipe-step-2').className = 'pipeline-step';
+  document.getElementById('pipe-step-3').className = 'pipeline-step';
+}
+
+function runAgenticEditSimulation() {
+  const demo = codeLabDemos[currentCodeLabKey];
+  const btn = document.getElementById('run-codelab-btn');
+  const step1 = document.getElementById('pipe-step-1');
+  const step2 = document.getElementById('pipe-step-2');
+  const step3 = document.getElementById('pipe-step-3');
+  const diffBox = document.getElementById('codelab-diff-view');
+  const demoBtn = document.getElementById('demo-btn');
+  const demoOutput = document.getElementById('demo-output');
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Running On-Device Agent...';
+  diffBox.style.display = 'none';
+
+  // Step 1: GBNF Plan
+  step1.className = 'pipeline-step active';
+  step2.className = 'pipeline-step';
+  step3.className = 'pipeline-step';
+
+  setTimeout(() => {
+    // Step 2: Act / Delta
+    step1.className = 'pipeline-step done';
+    step2.className = 'pipeline-step active';
+
+    diffBox.innerHTML = `<strong>Applied Diff (⚡ 1.2s):</strong><br><span style="color: #f87171;">${demo.diff.rem}</span><br><span style="color: #34d399;">${demo.diff.add}</span>`;
+    diffBox.style.display = 'block';
+
+    setTimeout(() => {
+      // Step 3: Observe / Verify
+      step2.className = 'pipeline-step done';
+      step3.className = 'pipeline-step active';
+
+      // Apply style to live mockup
+      demoBtn.style.background = demo.actionStyle.background;
+      demoBtn.style.boxShadow = demo.actionStyle.boxShadow;
+      demoOutput.innerText = '✅ Hot-reloaded & running on localhost:8080 (0 errors)';
+
+      setTimeout(() => {
+        step3.className = 'pipeline-step done';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Edit Applied in 1.2s!';
+
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa-solid fa-bolt"></i> Test On-Device Agentic Edit (⚡ 1.2s)';
+        }, 3000);
+      }, 400);
+    }, 450);
+  }, 400);
+}
+

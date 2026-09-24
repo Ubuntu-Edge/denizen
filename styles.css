@@ -1548,3 +1548,149 @@ body {
     padding: 20px;
   }
 }
+
+/* ==========================================================================
+   CodeLab Showcase & Agentic Sandbox Styles
+   ========================================================================== */
+.codelab-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.codelab-wrapper {
+  background: var(--bg-card);
+  border: 2px solid var(--border-sketch);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.codelab-simulator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 28px;
+  margin-top: 24px;
+}
+
+@media (max-width: 900px) {
+  .codelab-simulator-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.codelab-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.codelab-template-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.codelab-template-chip {
+  background: var(--bg-input);
+  border: 1px solid var(--border-sketch);
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.codelab-template-chip:hover,
+.codelab-template-chip.active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--sketch-cyan);
+  color: var(--sketch-cyan);
+}
+
+.agentic-pipeline-box {
+  background: var(--bg-input);
+  border: 1px solid var(--border-sketch);
+  border-radius: 12px;
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pipeline-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.pipeline-step.active {
+  color: var(--sketch-mint);
+  font-weight: 700;
+}
+
+.pipeline-step.done {
+  color: var(--sketch-cyan);
+}
+
+.codelab-browser-card {
+  background: #090d16;
+  border: 1px solid var(--border-sketch);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.codelab-browser-topbar {
+  background: #131b2e;
+  border-bottom: 1px solid var(--border-sketch);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.codelab-url-bar {
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.codelab-preview-frame {
+  padding: 24px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0b1120 0%, #1e1b4b 100%);
+  text-align: center;
+}
+
+.codelab-diff-badge {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid var(--sketch-mint);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--sketch-mint);
+  margin-top: 10px;
+  display: none;
+}
+

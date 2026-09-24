@@ -42,6 +42,7 @@
         <li><a href="#features">Engine Features</a></li>
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#quant-studio">Quant Studio</a></li>
+        <li><a href="#codelab" style="color: var(--sketch-cyan); font-weight: 700;"><i class="fa-solid fa-terminal"></i> CodeLab STEM</a></li>
         <li><a href="#partners">Field Deployment</a></li>
         <li><a href="#articles">Medium Articles</a></li>
         <li><a href="#buildathons">Buildathons</a></li>
@@ -411,6 +412,78 @@
 
 
 
+  <!-- CodeLab On-Device STEM Coding Showcase Section -->
+  <section id="codelab" class="section-padding codelab-section">
+    <div class="container">
+      <div class="codelab-wrapper sketch-card">
+        <div class="section-header text-center" style="margin-bottom: 20px;">
+          <span class="handwriting-badge bg-yellow">🚀 Interactive STEM Lab on Every Tablet</span>
+          <h2 class="section-title">CodeLab: On-Device Coding Agent & Live Chrome Runner</h2>
+          <p class="section-subtitle">Turn low-spec school tablets into interactive software studios. Zero internet required, fast 1.2s delta editing, and instant live browser preview.</p>
+        </div>
+
+        <div class="codelab-simulator-grid">
+          <div class="codelab-controls">
+            <label style="font-weight: 700; font-size: 0.9rem; color: var(--sketch-cyan);"><i class="fa-solid fa-book-bookmark"></i> Select CBC Curriculum Project:</label>
+            <div class="codelab-template-chips">
+              <span class="codelab-template-chip active" id="chip-mpesa" onclick="selectCodeLabDemo('mpesa')">💸 M-Pesa Fee Calc</span>
+              <span class="codelab-template-chip" id="chip-flag" onclick="selectCodeLabDemo('flag')">🇰🇪 Kenya Flag Canvas</span>
+              <span class="codelab-template-chip" id="chip-quiz" onclick="selectCodeLabDemo('quiz')">🦁 Wildlife Quiz</span>
+            </div>
+
+            <label style="font-weight: 700; font-size: 0.9rem; color: var(--sketch-mint); margin-top: 8px;"><i class="fa-solid fa-sparkles"></i> Student Instruction:</label>
+            <input type="text" class="sketch-input" id="codelab-user-prompt" value="Change button background to glowing emerald green" style="font-family: var(--font-sans);">
+
+            <!-- Pipeline Progress Box -->
+            <div class="agentic-pipeline-box">
+              <div class="pipeline-step" id="pipe-step-1"><span>1.</span> 🧠 GBNF Plan: <code>search_replace</code> action</div>
+              <div class="pipeline-step" id="pipe-step-2"><span>2.</span> 🛠️ Act: Apply delta patch to buffer</div>
+              <div class="pipeline-step" id="pipe-step-3"><span>3.</span> 🌐 Observe: Verify 0 runtime errors on 127.0.0.1:8080</div>
+            </div>
+
+            <div class="codelab-diff-badge" id="codelab-diff-view">
+              <strong>Applied Diff (⚡ 1.2s):</strong><br>
+              <span style="color: #f87171;">- background: #4F46E5;</span><br>
+              <span style="color: #34d399;">+ background: #10B981; box-shadow: 0 4px 14px rgba(16,185,129,0.4);</span>
+            </div>
+
+            <button class="btn btn-sketch-primary" id="run-codelab-btn" onclick="runAgenticEditSimulation()">
+              <i class="fa-solid fa-bolt"></i> Test On-Device Agentic Edit (⚡ 1.2s)
+            </button>
+          </div>
+
+          <!-- Browser Mockup Live Preview -->
+          <div class="codelab-browser-card">
+            <div class="codelab-browser-topbar">
+              <div class="doodle-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="codelab-url-bar">
+                <i class="fa-solid fa-lock" style="color: var(--sketch-mint); font-size: 0.7rem;"></i> http://127.0.0.1:8080/index.html
+              </div>
+              <span class="doodle-tag" style="font-size: 0.72rem; padding: 2px 6px; background: rgba(56,189,248,0.2); color: #38bdf8;">
+                <i class="fa-brands fa-chrome"></i> Live Chrome Runner
+              </span>
+            </div>
+
+            <div class="codelab-preview-frame" id="codelab-preview-box">
+              <div style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; padding: 20px; max-width: 320px; width: 100%;">
+                <h3 id="demo-title" style="margin: 0 0 10px 0; font-size: 1.1rem; color: #00d06c;">💸 M-Pesa Fee Calculator</h3>
+                <p id="demo-sub" style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 14px;">Compute transaction fees offline on DLP tablets.</p>
+                <button id="demo-btn" style="background: #4F46E5; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                  Compute Fee
+                </button>
+                <p id="demo-output" style="margin-top: 12px; font-size: 0.8rem; color: #34d399; font-weight: 600;"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Production Deployment Section -->
   <section id="partners" class="section-padding partners-section">
     <div class="container">
@@ -445,15 +518,15 @@
           <div class="partner-logo-box">
             <i class="fa-solid fa-graduation-cap partner-icon icon-cyan" style="color: var(--sketch-cyan); font-size: 2.2rem;"></i>
             <h3>Ubuntu Elimu</h3>
-            <span class="partner-location">Kenya Offline EdTech</span>
+            <span class="partner-location">Kenya Offline EdTech & CodeLab</span>
           </div>
           <p class="partner-desc">
-            Distributed to multiple students across Kenya in test mode for offline curriculum tutoring, exam preparation, past paper reasoning, and interactive study assistance.
+            Equipping school tablets across Kenya with an on-device AI tutor, curriculum RAG, and an interactive <strong>CodeLab STEM sandbox</strong> with live Chrome execution.
           </p>
           <ul class="partner-highlights">
-            <li><i class="fa-solid fa-check text-mint"></i> Distributed to Students Across Kenya</li>
-            <li><i class="fa-solid fa-check text-mint"></i> 100% Offline EdTech AI Tutor</li>
-            <li><i class="fa-solid fa-check text-mint"></i> Curriculum Vector Search & RAG</li>
+            <li><i class="fa-solid fa-check text-mint"></i> 🚀 CodeLab STEM Sandbox & Chrome Runner</li>
+            <li><i class="fa-solid fa-check text-mint"></i> ⚡ Agentic Delta Edits with Runtime Auto-Debug</li>
+            <li><i class="fa-solid fa-check text-mint"></i> 100% Offline CBC Curriculum Vector RAG</li>
           </ul>
         </div>
       </div>

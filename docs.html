@@ -356,6 +356,7 @@
           <li><a href="#prompting-streaming"><i class="fa-solid fa-comments"></i> Prompting & Token Streaming</a></li>
           <li><a href="#vector-rag"><i class="fa-solid fa-database"></i> Offline Vector RAG Engine</a></li>
           <li><a href="#tool-calling"><i class="fa-solid fa-wrench"></i> Structured Tool Calling (GBNF)</a></li>
+          <li><a href="#codelab-engine"><i class="fa-solid fa-terminal"></i> CodeLab & Agentic Edits</a></li>
           <li><a href="#voice-engine"><i class="fa-solid fa-microphone"></i> Conversational Voice Loop</a></li>
           <li><a href="#multimodal-vision"><i class="fa-solid fa-eye"></i> Vision Roadmap (v2.0)</a></li>
         </ul>
@@ -776,6 +777,83 @@ registry.registerTool(GetLocationTool());
 final toolSession = DenizenToolSession(denizen.engine, registry);
 final result = await toolSession.chat('Where am I currently located?');
 print(result);</code></pre>
+        </div>
+      </section>
+
+      <!-- SECTION: CODELAB & AGENTIC DELTA EDITS -->
+      <section id="codelab-engine" class="docs-section">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <h1 style="margin: 0;">CodeLab: On-Device Code Agent & Live Runner</h1>
+          <span class="badge-status badge-ready"><i class="fa-solid fa-bolt"></i> ~1.2s Delta Latency</span>
+        </div>
+        <p>Built for low-spec school tablets (2GB–4GB RAM) with zero internet access. Rather than waiting 35+ seconds for full-file regeneration, Denizen uses a <strong>Plan ➔ Act ➔ Observe ➔ Verify</strong> agentic loop with surgical GBNF delta edits and live browser runtime verification.</p>
+
+        <h2>Agentic Loop Architecture</h2>
+        <div class="code-block-wrapper" style="background: #070a10; padding: 1rem; border-color: var(--sketch-cyan);">
+          <pre style="margin: 0; padding: 0;"><code> Student Request ──▶ GBNF Delta Plan (search_replace) ──▶ CodeDeltaApplier ──▶ LocalCodeServer (127.0.0.1:8080) ──▶ Chrome Live Runner ──▶ Observe Runtime (window.onerror)</code></pre>
+        </div>
+
+        <h2>Surgical Delta Actions (GBNF Constrained)</h2>
+        <table class="params-table">
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Schema Payload</th>
+              <th>Latency</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>search_replace</code></td>
+              <td><code>{"target": "...", "replacement": "..."}</code></td>
+              <td>~1.2s</td>
+              <td>Targeted CSS, string, or function updates.</td>
+            </tr>
+            <tr>
+              <td><code>insert_after</code></td>
+              <td><code>{"anchor": "...", "code": "..."}</code></td>
+              <td>~1.8s</td>
+              <td>Injecting new HTML tags, buttons, or event listeners.</td>
+            </tr>
+            <tr>
+              <td><code>replace_lines</code></td>
+              <td><code>{"start": 10, "end": 15, "code": "..."}</code></td>
+              <td>~2.2s</td>
+              <td>Rewriting specific logic functions.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>CodeLab Implementation Example</h2>
+        <div class="code-block-wrapper">
+          <div class="code-header">
+            <span>codelab_demo.dart</span>
+            <button class="btn-copy" onclick="copyCode(this)"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <pre><code>import 'package:denizen_ai/denizen_ai.dart';
+
+// 1. Start Zero-Config Local Web Server
+final server = LocalCodeServer.instance;
+await server.start(preferredPort: 8080);
+server.updateCode('&lt;html&gt;&lt;body&gt;&lt;button&gt;Click Me&lt;/button&gt;&lt;/body&gt;&lt;/html&gt;');
+
+// 2. Launch native Chrome browser on tablet
+await server.openInChrome();
+
+// 3. Run On-Device Agentic Edit Loop
+final agentLoop = CodeLabAgentLoop.instance;
+final stream = agentLoop.runEditLoop(
+  prompt: 'Make button glowing emerald green',
+  currentCode: server.currentHtml,
+);
+
+stream.listen((update) {
+  print('Step: \${update.step} | \${update.message}');
+  if (update.step == AgentStep.success) {
+    print('Code verified and hot-reloaded with 0 browser errors!');
+  }
+});</code></pre>
         </div>
       </section>
 
