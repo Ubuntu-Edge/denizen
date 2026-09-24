@@ -333,3 +333,152 @@ function runAgenticEditSimulation() {
   }, 400);
 }
 
+
+// ============================================================
+// VISION STUDIO INTERACTIVE SIMULATOR
+// ============================================================
+
+const visionDemos = {
+  medical: {
+    title: 'Clinical Photo Analysis — Offline',
+    featureIcon: 'fa-stethoscope',
+    featureColor: 'var(--sketch-pink)',
+    featureTitle: 'Clinical Photo Analysis',
+    featureDesc: 'Analyze wound photos, rashes, and clinical presentations with grounded LLaVA reasoning.',
+    imageLabel: 'Uploaded: wound_field_photo_nairobi_clinic.jpg',
+    stream: [
+      '[LLaVA-1.5] Loading image... 1024x768px downsample to 336x336 (auto-optimization)',
+      '[ENGINE] Tokenizing image patches with CLIP vision encoder...',
+      'Analyzing visual features...',
+      'The image shows a healing laceration on the lower forearm, approximately 4cm in length.',
+      'Wound edges appear approximated and dry with visible suture material.',
+      'No signs of erythema, purulent discharge, or significant edema in surrounding tissue.',
+      'Assessment: Wound healing is within normal progression for day 5 post-closure.',
+      'Recommendation: Continue standard wound care. Review in 48h.',
+      'Analysis complete. 0 cloud calls. 100% offline. 4.2s on-device.',
+    ]
+  },
+  agri: {
+    title: 'Crop Health Assessment — Offline',
+    featureIcon: 'fa-seedling',
+    featureColor: '#4ade80',
+    featureTitle: 'Crop Disease Detection',
+    featureDesc: 'Identify leaf blight, fungal infection, and nutrient deficiency from farm photos.',
+    imageLabel: 'Uploaded: maize_field_photo_kisumu.jpg',
+    stream: [
+      '[LLaVA-1.5] Loading image... 2048x1536px downsample to 336x336 (auto-optimization)',
+      '[ENGINE] Analyzing agricultural visual features...',
+      'Maize plants show yellowing of lower leaves with brown necrotic patches.',
+      'Pattern is consistent with Northern Leaf Blight (Exserohilum turcicum) - fungal infection.',
+      'Approximately 30-40% of visible leaf area affected.',
+      'Recommended Action: Apply fungicide (mancozeb or azoxystrobin).',
+      'Improve field drainage and increase plant spacing for next planting cycle.',
+      'Analysis complete. 0 cloud calls. 100% offline. 3.8s on-device.',
+    ]
+  },
+  edu: {
+    title: 'Student Work Analysis — Offline',
+    featureIcon: 'fa-graduation-cap',
+    featureColor: 'var(--sketch-cyan)',
+    featureTitle: 'Educational Content Analysis',
+    featureDesc: 'Grade handwritten work, explain diagrams, and provide step-by-step feedback.',
+    imageLabel: 'Uploaded: student_math_homework_grade8.jpg',
+    stream: [
+      '[LLaVA-1.5] Loading image... 1280x960px downsample to 336x336',
+      '[ENGINE] Analyzing handwritten mathematical work...',
+      'Student is solving a quadratic equation: 2x^2 - 5x + 3 = 0',
+      'Factoring approach: (2x - 3)(x - 1) = 0 -- approach is correct.',
+      'Solution step 3 shows an arithmetic error: x = 3/2 written incorrectly as x = 2/3.',
+      'Feedback: Great factoring technique! Check the fraction in step 3.',
+      'Correct answers: x = 3/2 and x = 1.',
+      'Analysis complete. 0 cloud calls. 100% offline. 3.1s on-device.',
+    ]
+  },
+  infra: {
+    title: 'Infrastructure Inspection — Offline',
+    featureIcon: 'fa-wrench',
+    featureColor: 'var(--sketch-yellow)',
+    featureTitle: 'Infrastructure Defect Detection',
+    featureDesc: 'Detect cracks, corrosion, and structural issues in roads, bridges, and buildings.',
+    imageLabel: 'Uploaded: bridge_pillar_inspection_mombasa.jpg',
+    stream: [
+      '[LLaVA-1.5] Loading image... 3024x4032px downsample to 336x336 (auto-optimization)',
+      '[ENGINE] Analyzing structural visual features...',
+      'Concrete pillar shows horizontal cracking patterns at mid-section.',
+      'Crack width estimated at 2-4mm -- exceeds maintenance threshold.',
+      'Evidence of mild spalling and surface carbonation visible on lower section.',
+      'Risk Level: MEDIUM -- schedule engineer inspection within 30 days.',
+      'Recommend applying crack sealant to prevent water ingress and corrosion.',
+      'Analysis complete. 0 cloud calls. 100% offline. 5.1s on-device.',
+    ]
+  }
+};
+
+let activeVisionDemo = 'medical';
+
+function selectVisionDemo(demo) {
+  activeVisionDemo = demo;
+  document.querySelectorAll('.vision-chip').forEach(function(c) { c.classList.remove('active'); });
+  document.getElementById('vc-' + demo).classList.add('active');
+
+  const d = visionDemos[demo];
+  document.getElementById('vision-console-title').textContent = d.title;
+  const featRow = document.getElementById('vf-desc');
+  featRow.querySelector('i').className = 'fa-solid ' + d.featureIcon;
+  featRow.querySelector('i').style.color = d.featureColor;
+  featRow.querySelector('strong').textContent = d.featureTitle;
+  featRow.querySelector('p').textContent = d.featureDesc;
+  document.getElementById('vision-stream-output').innerHTML = 'Click <strong>Analyze Image On-Device</strong> to see simulated inference...';
+  document.getElementById('vision-placeholder').querySelector('p').textContent = d.imageLabel;
+  document.getElementById('vision-loading-bar').style.display = 'none';
+  var btn = document.getElementById('run-vision-btn');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fa-solid fa-eye"></i> Analyze Image On-Device';
+}
+
+function runVisionSimulation() {
+  var btn = document.getElementById('run-vision-btn');
+  var output = document.getElementById('vision-stream-output');
+  var loadingBar = document.getElementById('vision-loading-bar');
+  var demo = visionDemos[activeVisionDemo];
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing On-Device...';
+  output.innerHTML = '';
+  loadingBar.style.display = 'block';
+
+  var lineIndex = 0;
+  var charIndex = 0;
+  var currentLine = '';
+  var fullText = '';
+
+  function typeNextChar() {
+    if (lineIndex >= demo.stream.length) {
+      loadingBar.style.display = 'none';
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Analysis Complete!';
+      setTimeout(function() {
+        btn.innerHTML = '<i class="fa-solid fa-eye"></i> Analyze Image On-Device';
+        btn.disabled = false;
+      }, 4000);
+      return;
+    }
+
+    var line = demo.stream[lineIndex];
+    if (charIndex < line.length) {
+      currentLine += line[charIndex];
+      charIndex++;
+      output.textContent = fullText + currentLine;
+      setTimeout(typeNextChar, 18);
+    } else {
+      fullText += currentLine + '\n';
+      currentLine = '';
+      charIndex = 0;
+      lineIndex++;
+      output.textContent = fullText;
+      setTimeout(typeNextChar, 150);
+    }
+  }
+
+  setTimeout(typeNextChar, 600);
+}

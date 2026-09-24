@@ -24,9 +24,9 @@
   <!-- Announcement Bar -->
   <div class="announcement-bar">
     <div class="container announcement-content">
-      <span class="doodle-tag"><i class="fa-solid fa-bolt"></i> NEW RELEASE</span>
+      <span class="doodle-tag"><i class="fa-solid fa-bolt"></i> v0.2.0-dev.1</span>
       <span><strong>v2.0 Preview:</strong> Denizen AI Flutter Engine & Quant Studio is live!</span>
-      <a href="#buildathons" class="announcement-link">Join Upcoming Buildathons <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#vision-studio" class="announcement-link">Explore Vision Studio <i class="fa-solid fa-arrow-right"></i></a>
     </div>
   </div>
 
@@ -40,7 +40,7 @@
       <ul class="nav-links">
         <li><a href="docs.html" style="color: var(--sketch-mint); font-weight: 700;"><i class="fa-solid fa-book-open"></i> Docs</a></li>
         <li><a href="#features">Engine Features</a></li>
-        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#vision-studio" style="color: var(--sketch-pink); font-weight: 700;"><i class="fa-solid fa-eye"></i> Vision Studio</a></li>
         <li><a href="#quant-studio">Quant Studio</a></li>
         <li><a href="#codelab" style="color: var(--sketch-cyan); font-weight: 700;"><i class="fa-solid fa-terminal"></i> CodeLab STEM</a></li>
         <li><a href="#partners">Field Deployment</a></li>
@@ -271,10 +271,10 @@
             <div class="feature-icon icon-purple">
               <i class="fa-solid fa-eye"></i>
             </div>
-            <span class="doodle-sticker sticker-cyan" style="font-size: 0.85rem; padding: 2px 8px;">👁️ v2.0 Roadmap</span>
+            <span class="doodle-sticker sticker-pink" style="font-size: 0.85rem; padding: 2px 8px;">👁️ v0.2.0 LIVE</span>
           </div>
           <h3>Multimodal Vision Analysis</h3>
-          <p>Analyze visual data, field photos, inspection reports, and diagnostic indicators directly on device.</p>
+          <p>Analyze photos, diagrams, field reports &amp; handwritten notes entirely on-device. Powered by LLaVA &amp; MobileVLM with automatic image optimization.</p>
           <span class="handwriting-tag">MobileVLM & LLaVA</span>
         </div>
 
@@ -289,6 +289,99 @@
           <h3>Context-Preserving SLMs</h3>
           <p>Ultra-compact Small Language Models (1.5B–3B) fine-tuned specifically for local contextual knowledge and multi-lingual nuances.</p>
           <span class="handwriting-tag">Local Language Context</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision Studio Section -->
+  <section id="vision-studio" class="section-padding vision-section">
+    <div class="container">
+      <div class="vision-wrapper sketch-card">
+        <div class="vision-header">
+          <div class="vision-title-area">
+            <span class="handwriting-badge bg-pink">👁️ Now Live in v0.2.0-dev.1</span>
+            <h2>Vision Studio: On-Device Multimodal Reasoning</h2>
+            <p>Upload any image — a field photo, diagnostic report, handwritten notes, or classroom diagram — and get grounded, hallucination-resistant analysis. 100% offline. No cloud. No API cost.</p>
+          </div>
+        </div>
+
+        <div class="vision-simulator-grid">
+          <!-- Left: Use Case Selector -->
+          <div class="vision-controls">
+            <label style="font-weight: 700; font-size: 0.9rem; color: var(--sketch-pink);"><i class="fa-solid fa-images"></i> Select Vision Use Case:</label>
+            <div class="vision-usecase-chips">
+              <span class="vision-chip active" id="vc-medical" onclick="selectVisionDemo('medical')">🩺 Medical Field</span>
+              <span class="vision-chip" id="vc-agri" onclick="selectVisionDemo('agri')">🌾 Agriculture</span>
+              <span class="vision-chip" id="vc-edu" onclick="selectVisionDemo('edu')">📚 Education</span>
+              <span class="vision-chip" id="vc-infra" onclick="selectVisionDemo('infra')">🔧 Infrastructure</span>
+            </div>
+
+            <div class="vision-features-list">
+              <div class="vision-feature-row" id="vf-desc">
+                <i class="fa-solid fa-stethoscope" style="color: var(--sketch-pink);"></i>
+                <div>
+                  <strong>Clinical Photo Analysis</strong>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin: 2px 0 0 0;">Analyze wound photos, rashes, and clinical presentations with grounded LLaVA reasoning.</p>
+                </div>
+              </div>
+              <div class="vision-feature-row">
+                <i class="fa-solid fa-shield-halved" style="color: var(--sketch-mint);"></i>
+                <div>
+                  <strong>Anti-Hallucination Guard</strong>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin: 2px 0 0 0;">Field ground-truth evaluation harness prevents overconfident diagnoses.</p>
+                </div>
+              </div>
+              <div class="vision-feature-row">
+                <i class="fa-solid fa-compress" style="color: var(--sketch-cyan);"></i>
+                <div>
+                  <strong>Auto Image Optimization</strong>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin: 2px 0 0 0;">Automatic downsampling prevents out-of-memory crashes on low-RAM devices.</p>
+                </div>
+              </div>
+              <div class="vision-feature-row">
+                <i class="fa-solid fa-bolt" style="color: var(--sketch-yellow);"></i>
+                <div>
+                  <strong>Streaming Token Output</strong>
+                  <p style="font-size: 0.82rem; color: var(--text-muted); margin: 2px 0 0 0;">Real-time token streaming so users see the analysis as it generates.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Simulated Vision Output Console -->
+          <div class="vision-console-card">
+            <div class="vision-console-topbar">
+              <div class="doodle-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="vision-console-title" id="vision-console-title">🩺 Clinical Photo Analysis — Offline</span>
+            </div>
+
+            <!-- Simulated image upload zone -->
+            <div class="vision-image-zone" id="vision-image-zone">
+              <div class="vision-image-placeholder" id="vision-placeholder">
+                <i class="fa-solid fa-image" style="font-size: 2rem; color: var(--text-muted);"></i>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 8px 0 0 0;">📸 Uploaded field photo</p>
+                <div class="vision-loading-bar" id="vision-loading-bar"></div>
+              </div>
+            </div>
+
+            <!-- Streaming Analysis Output -->
+            <div class="vision-output-box">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span class="doodle-tag" style="font-size: 0.75rem;"><i class="fa-solid fa-microchip"></i> LLaVA-1.5 · On-Device</span>
+                <span class="doodle-tag" style="font-size: 0.75rem; background: rgba(251,113,133,0.2); color: #fb7185;"><i class="fa-solid fa-wifi-slash"></i> Offline</span>
+              </div>
+              <div class="vision-stream-text" id="vision-stream-output">Select a use case and click <strong>Analyze Image</strong> to see a simulated on-device vision inference stream...</div>
+            </div>
+
+            <button class="btn btn-sketch-primary btn-block" id="run-vision-btn" onclick="runVisionSimulation()" style="margin-top: 12px;">
+              <i class="fa-solid fa-eye"></i> Analyze Image On-Device
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -657,9 +750,9 @@
         <h4>Navigation</h4>
         <ul>
           <li><a href="#features">Engine Features</a></li>
-          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#vision-studio"><i class="fa-solid fa-eye" style="font-size: 0.8rem;"></i> Vision Studio</a></li>
           <li><a href="#quant-studio">Quant Studio</a></li>
-          <li><a href="#code-demo">Flutter SDK</a></li>
+          <li><a href="#codelab"><i class="fa-solid fa-terminal" style="font-size: 0.8rem;"></i> CodeLab STEM</a></li>
           <li><a href="#partners">Field Deployment</a></li>
         </ul>
       </div>
@@ -727,12 +820,14 @@
 
       // Landing-page section quips
       const sectionQuips = {
-        'features':     ['🔥 GGUF on-device!', '⚡ Zero API fees!', '🧩 Plug & play AI!'],
-        'architecture': ['🏗️ Clean pipeline!', '⚙️ llama.cpp power!', '🔬 See how it works!'],
-        'quant-studio': ['📦 Shrink your model!', '🗜️ Q4_K_M FTW!', '💾 From 6.8→1.9 GB!'],
-        'partners':     ['🏥 Ubuntu Afya live!', '🎓 Ubuntu Elimu!', '🌍 Field-tested!'],
-        'articles':     ['✍️ Great reads!', '📖 Read on Medium!', '💡 Learn the tricks!'],
-        'buildathons':  ['🎉 Hackathon time!', '🚀 Build with us!', '🏆 Win prizes!'],
+        'features':      ['🔥 GGUF on-device!', '⚡ Zero API fees!', '🧩 Plug & play AI!'],
+        'vision-studio': ['👁️ See without cloud!', '📸 Photo → AI → done!', '🛡️ No hallucinations!'],
+        'architecture':  ['🏗️ Clean pipeline!', '⚙️ llama.cpp power!', '🔬 See how it works!'],
+        'quant-studio':  ['📦 Shrink your model!', '🗜️ Q4_K_M FTW!', '💾 From 6.8→1.9 GB!'],
+        'codelab':       ['💻 Code on tablets!', '🚀 CBC STEM lab!', '⚡ Chrome live preview!'],
+        'partners':      ['🏥 Ubuntu Afya live!', '🎓 Ubuntu Elimu!', '🌍 Field-tested!'],
+        'articles':      ['✍️ Great reads!', '📖 Read on Medium!', '💡 Learn the tricks!'],
+        'buildathons':   ['🎉 Hackathon time!', '🚀 Build with us!', '🏆 Win prizes!'],
       };
       const defaultQuips = [
         '🐨 Hey, I\'m Koko!', '🌿 MIT Licensed!', '💚 100% Open Source!',
@@ -788,7 +883,7 @@
       function buildTargets() {
         targets = [];
         // Walk across section headings
-        ['features','architecture','quant-studio','partners','articles','buildathons'].forEach(id => {
+        ['features','vision-studio','architecture','quant-studio','codelab','partners','articles','buildathons'].forEach(id => {
           const sec = document.getElementById(id);
           if (!sec) return;
           const h = sec.querySelector('h1,h2,h3');

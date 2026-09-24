@@ -1694,3 +1694,223 @@ body {
   display: none;
 }
 
+/* ==========================================================================
+   VISION STUDIO SECTION
+   ========================================================================== */
+
+.vision-section {
+  background: radial-gradient(ellipse at 70% 40%, rgba(251, 113, 133, 0.07) 0%, transparent 65%),
+              radial-gradient(ellipse at 20% 80%, rgba(192, 132, 252, 0.07) 0%, transparent 65%);
+}
+
+.vision-wrapper {
+  padding: 36px 40px;
+  border: 2px solid rgba(251, 113, 133, 0.3) !important;
+  box-shadow: 0 0 40px rgba(251, 113, 133, 0.08), var(--shadow-sketch) !important;
+}
+
+.vision-header {
+  margin-bottom: 28px;
+}
+
+.vision-title-area h2 {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 10px 0 8px;
+  background: linear-gradient(135deg, #fb7185, #c084fc, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.vision-title-area p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 700px;
+  line-height: 1.65;
+}
+
+.vision-simulator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .vision-simulator-grid {
+    grid-template-columns: 1fr;
+  }
+  .vision-wrapper {
+    padding: 24px 20px;
+  }
+}
+
+/* Use case chip selector */
+.vision-usecase-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 20px;
+}
+
+.vision-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border-sketch);
+  background: rgba(255,255,255,0.04);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-sans);
+}
+
+.vision-chip:hover,
+.vision-chip.active {
+  background: rgba(251, 113, 133, 0.15);
+  border-color: var(--sketch-pink);
+  color: var(--sketch-pink);
+  transform: translateY(-1px);
+}
+
+/* Features list */
+.vision-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vision-feature-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.2s ease;
+}
+
+.vision-feature-row:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.vision-feature-row i {
+  margin-top: 2px;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.vision-feature-row strong {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Console card */
+.vision-console-card {
+  background: #090d16;
+  border-radius: 16px;
+  border: 1.5px solid rgba(251, 113, 133, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.vision-console-topbar {
+  background: #111624;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vision-console-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+}
+
+/* Image zone */
+.vision-image-zone {
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 16px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vision-image-placeholder {
+  text-align: center;
+  width: 100%;
+}
+
+.vision-loading-bar {
+  height: 3px;
+  background: rgba(251, 113, 133, 0.2);
+  border-radius: 2px;
+  margin: 12px auto 0;
+  max-width: 200px;
+  overflow: hidden;
+  display: none;
+}
+
+.vision-loading-bar::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #fb7185, #c084fc);
+  border-radius: 2px;
+  animation: visionLoad 1.4s ease-in-out infinite;
+}
+
+@keyframes visionLoad {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+/* Output box */
+.vision-output-box {
+  padding: 14px;
+  flex: 1;
+}
+
+.vision-stream-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #94a3b8;
+  min-height: 80px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.vision-stream-text .vision-token {
+  color: #e2e8f0;
+  animation: tokenFade 0.1s ease-in;
+}
+
+@keyframes tokenFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.vision-stream-text .vision-highlight {
+  color: var(--sketch-pink);
+  font-weight: 700;
+}
+
+.vision-stream-text .vision-ok {
+  color: var(--sketch-mint);
+  font-weight: 700;
+}
+
